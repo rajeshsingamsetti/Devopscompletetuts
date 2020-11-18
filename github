@@ -1,0 +1,132 @@
+
+Git is an software application.
+
+Github && gitlab && bitbucket. && azure devops pro
+
+To download locally 
+Git scm (download git bash in windows).
+
+
+For New Repository:
+git init
+git add README.md or git add .
+git commit -m "first commit"
+git remote add origin git@github.com:mavrick202/hello123.git
+git push -u origin master
+ 
+For existing Repository:
+rm -rf .git
+git init
+git remote add origin git@github.com:mavrick202/hello123.git
+git push -u origin master
+
+root@ubuntu:~/githubbyraj# git log
+commit 3fc970b67b3c7a9dd192711ef0536b1d5ca6848b
+Author: root <root@ubuntu.vitel-webconf>
+Date:   Mon Oct 12 14:47:39 2020 -0400
+
+    intro github (its my last coomit from git)
+
+
+git log --oneline
+
+git pull githuburl bramchname
+
+git push origin master --force
+
+git reset hard-2 (backward to previous 2 log commits)
+---------------------------------------------
+git reset
+git branches
+git merge & rebase
+
+pull request
+
+branches (master having main source code)
+copy the master branch make a dummy branch
+git clone githuburl
+to find which branch u are now
+git branch
+
+* to create a branch
+git branch -b branchname
+* indicate which branch you are
+to create a branch and shift in same time
+git checkout -b branchname (copy the master branch)
+
+relation
+git checkout destinationbranch
+git checkout sourcebranch
+
+git add . or git reset -- HARD . /git reset HEAD -- testfile4
+git commit
+git reset --hard HEAD
+git reset --hard commitid
+git clean -n
+git clean -d -f
+git commit --amend
+git blame filename
+git push --force
+ 
+git config --global core.editor "nano"
+git branch
+git checkout -b branch
+git branch -D
+git stash
+git stash save "add style to our site"
+git stash list
+git stash pop stash@{2}
+git merge
+git rebase
+git rebase -i HEAD~n
+git squash
+ 
+ 
+git secrets
+git tags
+git cherry-pick
+ 
+===========================================
+#!/bin/bash
+I=0
+mkdir /mygitrepo
+touch /mygitrepo/file1
+cd /mygitrepo
+git init
+while [ $I -lt $@ ]; do
+​echo 'TESTDATA-FROM-SREE-'$I >>file1 && git add . && git commit -m COMMIT-$I
+​I=$(expr $I + 1)
+done
+I=0
+ 
+bash script.sh 10
+ 
+git reset --soft HEAD~1
+git reset --hard HEAD~1
+git reset --hard origin/branch #This command will sync the local repository with the remote repository getting rid of every change you have made on your local.
+https://www.atlassian.com/git/tutorials/cherry-pick
+git push origin master --force
+git reflog
+git reflog show --all
+git rebase https://www.youtube.com/watch?v=f1wnYdLEpgI
+ 
+alias rem='cd .. && rm -rf /mygitrepo/ && cd ~ && bash commit.sh 10 && cd /mygitrepo'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
