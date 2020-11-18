@@ -8,7 +8,22 @@ Git scm (download git bash in windows).
 
 to configure git credentials on linux
 go to github account and click on settings and Deploy keys & title give anything under key paste the piblic key ssh-keygen from ur linux server
-
+=================guide to login =========
+ cd test/
+ 1125  ls
+ 1126  vi test.php
+ 1127  rm -rf .git/
+ 1128  git init
+ 1129  git add .
+ 1130  git commit -m "testingf"
+ 1131  git config --global user.name "raj"
+ 1132  git commit -m "testingf"
+ 1133  git config --global user.email "rajeshsingamsetties@gmail.com"
+ 1134  git commit -m "testingf"
+ 1135  ls
+ 1136  git remote add origin https://github.com/rajeshsingamsetti/DevopsPack.git
+ 1137  git push -u origin master
+ ==============================================================
 
 For New Repository:
 git init
