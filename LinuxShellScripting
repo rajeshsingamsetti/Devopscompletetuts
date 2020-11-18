@@ -1,0 +1,610 @@
+
+Aws Devops Real time
+set -x -e (for linux shell script debugging mode)
+| (it will take output of previous command to next command
+
+cat filename | bash (to run a script file)
+
+&& after one command execution other command will 
+
+by using curl we can see that total scripr
+curl: check url
+curl https://get.docker.com | bash && docker version
+
+Variable declaration:
+types of variable declaration
+a=20
+echo $a
+echo "$a"
+echo "${a}"
+
+for strings
+name = 'Rajesh singamsetty'
+echo $name
+
+============================aws cli installl============================================
+Installing on linux
+
+ubuntu
+refurl: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+
+==============aws configure=================================
+create a user and give aws console access and take security crendeials
+root@ip-172-31-10-135:~# aws configure
+AWS Access Key ID [None]: AKIAQ5WQEB789SLU2BZ4HV
+AWS Secret Access Key [None]: 78jbdjfbd8jbdfjbfkd8knd
+Default region name [None]: ap-south-1
+Default output format [None]: 
+
+after permission add a inline policy
+chooose json:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+aws ec2 describe-instances --region ap-south-1
+==========================================================================
+
+aws s3 ls
+
+create & upload a file to aws s3
+#! /bin/bash
+i=0
+while [ $i -lt 3]
+do
+date > file$i s3://bucketname
+echo "uploading file$i"
+sleep 2
+i=$(( $i + 1 ))
+done
+
+=============================create a userautomation through shell scripting============================
+
+another realtime
+need to check user exist or not && if user not exist create it && set random password at first login
+to check users /etc/passwd
+
+read is used to enter command side input values
+to delete a user userdel -r username
+--now we need to learn operators
+learn this
+https://www.tutorialspoint.com/unix/unix-basic-operators.htm
+-z is check userinput is empty or not(note it only for strings)
+***** linux very important params to know
+$?
+$@
+$*
+$#
+
+$? is used for previously executed command succees or not if it sucees it will return 0 
+echo $?
+
+#!/bin/bash
+while [ TRUE ]
+do
+read -p "Enter Username 1:" USER1
+read -s -p "Please Enter The Password:" PASSWORD
+if [ -z $USER1 ]; then
+   echo "Please Enter A Valid Username."
+else
+   EXUSER=$(cat /etc/passwd | cut -d ":" -f 1 | grep -w "$USER1")
+   echo $EXUSER
+   if [[ "$EXUSER" == "$USER1" ]]; then
+       echo "User Exists, please enter a unique username"
+   else
+       useradd -m $USER1
+       chown $USER1:$USER1 /home/$USER1
+       echo "$USER1:$PASSWORD" | sudo chpasswd
+       echo "User $USER1 sucessfully created..!!"
+   fi
+fi
+done
+================================user automation 2======================
+#!/bin/bash
+while [ TRUE ]; do
+read -p "Enter Username 1:" USER1
+if [ -z $USER1 ]; then
+   echo "Please Enter A Valid Username."
+else
+   EXUSER=$(cat /etc/passwd | cut -d ":" -f 1 | grep -w "$USER1")
+   echo $EXUSER
+   if [[ "$EXUSER" == "$USER1" ]]; then
+       echo "User Exists, please enter a unique username"
+   else
+       useradd -m $USER1
+       ALPHA='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+       ALPHACHAR=$(echo $ALPHA | fold -w 4 | shuf | head -1)
+       SPEC='!@#$%^&*()_'
+       SPECCHAR=$(echo $SPEC | fold -w1 | shuf | head -1)
+       PASSWORD=India${ALPHACHAR}${SPECCHAR}$RANDOM
+       chown $USER1:$USER1 /home/$USER1
+       echo "$USER1:$PASSWORD" | sudo chpasswd
+       echo "User $USER1 and password is $PASSWORD sucessfully created..!!"
+       passwd -e $USER1
+   fi
+fi
+done
+------------
+awk
+sed
+sort
+tr
+tmux
+=============================
+grep => gradual regular expressions
+grep -i where ever it match it will display
+grep -w it matches the word
+grep -n -w it matches the word along with line number
+
+awk we used for data manupulating the data to save time (without using grep and cut -d ":" -f 1,2,3)
+ex: cat /etc/passwd | awk -F ':' '{print $1,$2,$3}'
+reference url: https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
+
+**** sed
+By using sed we can replace the data ontime
+echo "https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip" | sed 's/0.12.28/'"$ver"'/g'
+refurl: https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
+
+** tr is used for converting lowercase to uppercase and remove the spaces
+refurls: https://www.tecmint.com/tr-command-examples-in-linux/
+https://www.geeksforgeeks.org/tr-command-in-unix-linux-with-examples/
+
+tmux
+ref url: https://linuxize.com/post/getting-started-with-tmux/
+ctrl + b % is for splitting screens
+
+to go previous menu
+ctrl + b shift < (left arrow mark)
+Ctrl+b x Close the current pane
+
+*** sort is a command is used to arrange a file in alphabetical order
+refurl : https://www.geeksforgeeks.org/sort-command-linuxunix-examples/
+=============================================================
+***multi if condition
+IF Statement - Multiple Conditions:
+ 
+echo -e "1.Morning\n2.Afternoon\n3.Evening\n4.Night"
+echo -n "Please select from above:"
+read n
+if [[ $n -eq 1 ]]
+then
+echo "Good Morning"
+elif [[ $n -eq 2 ]]
+then
+echo "Good Afternoon"
+elif [[ $n -eq 3 ]]
+then
+echo "Good Evening"
+elif [[ $n -eq 4 ]]
+then
+echo "Good Night"
+Fi
+=================================== 
+parameters input
+$?
+$#
+$*
+$@
+
+arrays
+exports
+for & while loops
+
+params examples:
+./script.sh  1 2 3 
+now user enter 3 parameters how we can count that parameters
+ex:
+#! /bin/bash
+echo "to find how many params we can use $#"
+if [ $# -gt 3 ]
+then
+echo "please enter below 3 params only"
+else 
+echo "u have enetered $#"
+echo $1
+echo $2
+echo $3
+echo $4
+fi
+==================
+$? ==> privious ouput return success or not
+
+$* and $@ both are same
+
+this will work on user how many inputs they fill it takes only that inputs
+ex:
+#! /bin/bash
+echo $@
+bash test.sh vm1 vm2
+bash test.sh vm1 vm2 vm3
+
+=======================
+for loop ref
+refurl: https://www.tutorialspoint.com/unix/for-loop.htm
+above $@ same senario in loop
+
+echo $@
+for vm in $@
+do
+echo "shutting vm $vm"
+done
+====================loops================================================
+=============real time create volumes=================
+Creating volumes
+ 
+#!/bin/bash
+echo $*
+for VOL in $*
+do
+echo "Creating The Volume...."
+aws ec2 create-volume --volume-type gp2 --size $VOL --availability-zone us-east-1a --tag-specifications 'ResourceType=volume,Tags=[{Key=Name,Value=PRODVOL}]'
+done
+
+to run script
+./test.sh 1 2 3 4(no 1 & 2 & 3 & 4 gb volumes are created
+
+================================================================================
+difference between $* and $@
+================================
+params example code
+=========================
+#!/bin/bash
+for x in $*
+do
+echo $x
+done
+echo "==================="
+for x in $@
+do
+echo $x
+done
+echo "==================="
+echo '"$*"'
+for x in "$*"
+do
+echo $x
+done
+echo "==================="
+for x in "$@"
+do
+echo $x
+done
+echo "==================="
+=====================================
+
+========================================================================================
+installing terraform packages and changes versions on real time
+
+#!/bin/bash
+for ver in $(cat version)
+do
+#PACKAGE=$(echo "https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip" | sed 's/0.12.28/'"$ver"'/g')
+#wget https://releases.hashicorp.com/terraform/${ver}/terraform_${ver}_linux_amd64.zip
+#wget $PACKAGE
+ls -al | grep -i terraform
+sleep 5
+done
+====================operators (logical & string & file operators)===================================
+ref url: https://www.tutorialspoint.com/unix/unix-relational-operators.htm
+============if using operators examples=======
+#!/bin/bash
+re='^[0-9]+$'
+if [ $# -gt 0 ]; then
+   for PERSON in $@; do
+       if [[ -n $PERSON ]] && [[ $PERSON =~ $re ]]; then
+           #echo "Lets Create User $PERSON"
+           echo "Username $PERSON is Empty or Invalid User Name."
+       else
+           #echo "Username is Empty or Invalid User Name."
+           echo "Lets Create User $PERSON"
+       fi
+   done
+else
+   echo "No Args Given"
+fi
+
+============ age caculator=======
+
+#!/bin/bash
+while true
+do
+read -p "Please Enter Your Name:" Name
+read -p "Please Enter DOB Year:" DOY
+AGE=$(expr 2020 - $DOY)
+if [ $AGE -le 15 ]; then
+   echo "You are 15 or below, get back to home....!!"
+elif [[ $AGE -gt 15 ]] && [[ $AGE -lt 60 ]]; then
+   echo "Your Are Allowed To Drink....!!"
+else
+   echo "You have cross 60 , stay home and avoid CORONA..!!"
+fi
+done
+
+file operators check files are exist or not
+refurl: https://www.tutorialspoint.com/unix/unix-file-operators.htm
+
+=============array for while======================
+// to check onstance present in region type 
+aws ec2 describe-regions --profile east1
+
+array ref url:
+https://www.geeksforgeeks.org/array-basics-shell-scripting-set-1/
+
+for more info check 7 th video 23:00 min
+
+to check all instances in your account all regions
+add access & secretkey in aws cli  --> 
+./aws/credentials
+./aws/config
+
+./aws/config
+[profiles east1]
+region = us-east-1
+output = json
+
+[profiles east2]
+region = us-east-2
+output = json
+
+[profiles east3]
+region = us-east-3
+output = json
+
+[profiles east4]
+region = us-east-4
+output = json
+
+// to check onstance present in region type 
+aws ec2 describe-regions --profile east1
+
+PROFILES=(‘us-east-1’ ‘us-east-2’ ‘us-west-1’ ‘us-west-2’)
+echo ${PROFILES[@]}
+east1 east2 west1 west2
+#####--LIST-INSTANCES--##########
+for PROFILE in ${PROFILES[@]}; do
+   echo $PROFILE
+   aws ec2 describe-instances --profile $PROFILE | jq -r '.Reservations[].Instances[].InstanceId'
+   echo "==========================="
+   sleep 1
+done
+
+#####--LIST-KEYPAIRS--##########
+for PROFILE in ${PROFILES[@]}; do
+   echo $PROFILE
+   aws ec2 describe-key-pairs --profile $PROFILE | jq -r '.KeyPairs[].KeyName'
+   echo "==========================="
+   sleep 1
+done
+ 
+#!/bin/bash
+#####--LIST-REGIONS-USING-JQ--##########
+REGIONS=$(aws ec2 describe-regions --profile east1 | jq -r '.Regions[].RegionName')
+ 
+#!/bin/bash
+#####--LIST-REGIONS-USING-ONLY-CLI--##########
+aws ec2 describe-regions --profile east1 | grep -i RegionName | cut -d ":" -f 2 | tr -d '"' | tr -d ','
+ 
+ 
+ ###############--WHILE-LOOP#################
+ 
+X=0
+while [ $X -lt 4 ]; do
+   echo ${PROFILES[$X]}
+   aws ec2 describe-key-pairs --profile ${PROFILES[$X]} | jq -r '.KeyPairs[].KeyName'
+   echo "====================="
+   X=$(($X + 1))
+   sleep 1
+done
+ 
+===============Functions======================================
+FUNCTIONS:
+--------------------
+ 
+#!/bin/bash
+usercreate(){
+for USER in $@
+do
+useradd -m $USER
+done
+}
+ 
+passwordcreate(){
+for USER in $@
+do
+PASSWORD=India@${RANDOM}
+chown $USER:$USER /home/$USER
+echo "$USER:$PASSWORD" | sudo chpasswd
+done
+}
+ 
+users(){
+usercreate $@
+passwordcreate $@
+echo "You are planning to create $# users."
+}
+ 
+users $@
+#!/bin/bash
+myuser(){
+read -p "Please enter the UserName:" USER_NAME
+PASSWORD=$(curl -sL https://helloacm.com/api/random/?n=14)
+EXUSER=$(cat /etc/passwd|cut -d ":" -f 1|grep -i ${USER_NAME})
+if [[ "${EXUSER}" == "${USER_NAME}" ]]
+then
+ echo "UserName Already Exists..!!"
+#  exit
+else
+ useradd -m "${USER_NAME}"
+ echo "${PASSWORD}" | passwd --stdin "${USER_NAME}"
+ echo "Created User "${USER_NAME}" & Password will be "${PASSWORD}""
+fi
+echo "User  "${USER_NAME}" created....!!"
+}
+myuser
+ 
+FUNCTION OTHER WAY:
+-------------------
+#!/bin/bash
+function myuser {
+read -p "Please enter the UserName:" USER_NAME
+PASSWORD=$(curl -sL https://helloacm.com/api/random/?n=14)
+EXUSER=$(cat /etc/passwd|cut -d ":" -f 1|grep -i ${USER_NAME})
+if [[ "${EXUSER}" == "${USER_NAME}" ]]
+then
+ echo "UserName Already Exists..!!"
+#  exit
+else
+ useradd -m "${USER_NAME}"
+ echo "${PASSWORD}" | passwd --stdin "${USER_NAME}"
+ echo "Created User "${USER_NAME}" & Password will be "${PASSWORD}""
+fi
+echo "User  "${USER_NAME}" created....!!"
+}
+myuser
+---------------------------------------------------------
+#!/bin/bash
+newuser () {
+ local USERNAME=${@}
+ useradd -m ${USERNAME}
+ echo "The ${USERNAME} is created..!!"o
+}
+ 
+newuser testuser1
+newuser testuser2
+newuser testuser3
+newuser testuser4
+newuser testuser5
+newuser testuser6
+ 
+Global & Loca Variables:
+#!/bin/bash
+NAME="GLOBAL-VARIABLE"
+func(){
+local NAME="LOCAL-VARIABLE"
+echo ${NAME}
+}
+echo ${NAME}
+func
+ 
+ 
+RETURN:
+------
+ 
+#!/bin/bash
+function testing () {
+read -p "Enter the first number:" NUM1
+read -p "Enter the second number:" NUM2
+NEWNUM=$(($NUM1+$NUM2))
+#echo "The New Number is $NEWNUM""
+return ${NEWNUM}
+}
+testing
+GETVAL=${?}
+ 
+ostechnix
+Ostechnix
+o$technix
+linux
+linus
+unix
+technology
+hello world
+HELLO world
+ 
+ 
+CUT:
+----
+cat /etc/passwd | cut -c1-4
+cat /etc/passwd | cut -c4
+cat /etc/passwd | cut -c4-
+cat /etc/passwd | cut -d ":" -f1
+cat /etc/passwd | cut -d ":" -f1,2
+ 
+GREP:
+-----
+cat /etc/passwd | grep -i tes
+cat /etc/passwd | grep -v test
+cat /etc/passwd | grep -i 't$'
+ 
+cat testfile.txt | egrep '^(o|h)'
+cat testfile.txt | egrep -n '^(o|h)'
+cat testfile.txt | egrep -i '^(o|h)'
+egrep '^[l-u]' testfile.txt
+egrep '[l-u]$' testfile.txt
+egrep '[l-y]$' testfile.txt
+egrep '^[l-u]|[L-U]' file.txt (or) egrep '^([l-u]|[L-U])' file.txt
+netstat -a | egrep -i '(CONNECTED | ESTABLISHED)'
+netstat -a | egrep -i '(CONNECTED | LISTEN | ESTABLISHED)'
+ 
+cat /etc/passwd | awk -F ':' '{print $1,$2,$3}'
+cat /etc/passwd | cut -d ":" -f1,2,3
+cat /etc/passwd | awk -F ":" -v OFS=","  '{print $1,$2,$3}'
+cat /etc/passwd | awk -F ":" '{print $1 "," $2 "," $3}'
+cat /etc/passwd | awk -F ":" '{print $1 ",  " $2 ",  " $3}' - Additional comma spaces
+cat /etc/passwd | awk -F ":" '{print "USERNAME:" $1 ",  " $2 ",  " "UID:"$3}'  --(Ammending words)
+ 
+Changing Data Order:
+cat /etc/passwd | awk -F ":" '{print $7 ":"  $1}'
+cat /etc/passwd | awk -F ":" '{print "HOMEDIR:"$6,",""UID:"$3,",""USERNAME:"$1}'
+ 
+SED:
+sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+useradd -m testuser10
+echo "testuser10:India@123456" | sudo chpasswd
+passwd -r testuser10
+service sshd restart
+ 
+sed -i '15 a <h1>WELCOME TO DEVOPS</h1>' /var/www/html/index.nginx-debian.html
+To characterize the three tools crudely:
+
+● tr works on characters (changes or deletes them).
+● sed works on lines (modifies words or other parts of lines, or inserts or deletes lines).
+● awk work on records with fields (by default whitespace separated fields on a line, but this may be changed by setting FS and RS).
+ 
+
+Using jq with shell:
+
+https://programminghistorian.org/en/lessons/json-and-jq
+
+curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq '.prefixes[] | .ip_prefix,.service'
+curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq '.prefixes[].ip_prefix'|tr -d '"' >> awsips
+curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq '.prefixes[].ip_prefix,.prefixes[].service'
+ 
+for subnet in $(cat subnets);
+do
+aws ec2 create-subnet --vpc-id vpc-0f47002cff9d8dd21 --cidr-block $subnet --availability-zone us-east-1a;
+done
+ ====================regular expressions=======================
+ ref url:
+ https://www.tutorialspoint.com/unix/unix-regular-expressions.htm
+ https://www.guru99.com/linux-regular-expressions.html#:~:text=What%20are%20Linux%20Regular%20Expressions,%2C%20rename%2C%20sed%2C%20etc.
+ 
+ we manage when crl +f will not suitable
+ cat filename | grep -e ^[0-9] only numbers
+ cat filename | grep -e ^[a-z0-9] 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
