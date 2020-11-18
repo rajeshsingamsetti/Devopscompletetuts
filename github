@@ -6,6 +6,9 @@ Github && gitlab && bitbucket. && azure devops pro
 To download locally 
 Git scm (download git bash in windows).
 
+to configure git credentials on linux
+go to github account and click on settings and Deploy keys & title give anything under key paste the piblic key ssh-keygen from ur linux server
+
 
 For New Repository:
 git init
