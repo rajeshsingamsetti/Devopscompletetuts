@@ -14,3 +14,25 @@ Hashicorp terraform
 * supports all cloud providers
 
 
+====for infrastrcture management tools is terraform
+
+configuration management tool is
+
+chef
+puppet
+ansible
+
+Diff b/w infra and configuration mangement
+once infrastracture deployment is done we can use configure management for more effictive work
+
+Terraform Advantages && Disadvantages:
+advantages:
+when compare to json teeraform code is simple
+can be used with multiple cloud vendors
+it's not that mush platform dependent the code will change depends upon platform
+config can be split into multiple files
+
+
+
+
+
