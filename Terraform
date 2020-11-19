@@ -1,1 +1,16 @@
 Welcome to terraform
+
+it is one of the famous Infrastracture tool
+
+for aws --> cloudformation
+for azure --> Azure resource manager
+
+above clouds are not that mush comfortable
+
+The third party tools is
+Hashicorp terraform
+
+* Infrastarture deployment made easy
+* supports all cloud providers
+
+
