@@ -31,6 +31,17 @@ when compare to json teeraform code is simple
 can be used with multiple cloud vendors
 it's not that mush platform dependent the code will change depends upon platform
 config can be split into multiple files
+we can run perform dry-run easily for debugging purpose
+importing of manual resources
+
+Dis Advantages:
+It's third party tool.new services might not be available
+bugs in latest version (11.) is stable version
+lack of support (paid for support)
+
+** cloudformation and terraform both are same one is third party another is aws
+
+How to use terraform on aws
 
 
 
