@@ -161,7 +161,7 @@ https://learn.hashicorp.com/tutorials/terraform/variables?in=terraform/configura
 
 https://github.com/addamstj/Terraform-012/blob/master/variables/main.tf
 
-** reference all variables ex: string,number,array
+** reference all variables ex: string,number,array(list),boolen,maps(access by using keys)
 
 provider "aws" {
   region = "eu-west-2"
@@ -227,7 +227,11 @@ variable "myobject" {
 
 
 
+inputname will take the vpc values from console
 
+output we will get the all details of created vpc by using terraform
+
+******** for more : https://www.terraform.io/docs/configuration/variables.html (refer this url)
 
 
 
