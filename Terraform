@@ -78,6 +78,77 @@ RAJs-MBP:bin rajsingam$ aws s3 ls
 ====================
 ****** tutor githubcode for reference
 https://github.com/addamstj/Terraform-012
+================
+** terraform most useful commands
+Common commands:
+    apply              Builds or changes infrastructure
+    console            Interactive console for Terraform interpolations
+    destroy            Destroy Terraform-managed infrastructure
+    env                Workspace management
+    fmt                Rewrites config files to canonical format
+    get                Download and install modules for the configuration
+    graph              Create a visual graph of Terraform resources
+    import             Import existing infrastructure into Terraform
+    init               Initialize a Terraform working directory
+    output             Read an output from a state file
+    plan               Generate and show an execution plan
+    providers          Prints a tree of the providers used in the configuration
+    refresh            Update local state file against real resources
+    show               Inspect Terraform state or plan
+    taint              Manually mark a resource for recreation
+    untaint            Manually unmark a resource as tainted
+    validate           Validates the Terraform files
+    version            Prints the Terraform version
+    workspace          Workspace management
+
+All other commands:
+    0.12upgrade        Rewrites pre-0.12 module source code for v0.12
+    debug              Debug output management (experimental)
+    force-unlock       Manually unlock the terraform state
+    push               Obsolete command for Terraform Enterprise legacy (v1)
+    state              Advanced state management
+===================
+terrraform our first code
+vscode open a folder
+create a file as the main.tf
+
+provider "aws" {
+    region = "ap-south-1"
+}
+
+resource "aws_vpc" "mypc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+open terminal in vscode & type
+terraform init
+terraform plan
+terraform apply + yes
+
+Now u can see that your vpc is created in aws (but we did n't give our aws credentails means prviously we did aws configure
+after apply we will see like this
+=======
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_vpc.mypc: Creating...
+aws_vpc.mypc: Creation complete after 5s [id=vpc-04b9719fa4475b4bd]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+===========
+now copy ur vpc id go to ur aws and check your vpc is created or not
+
+=========destroy====
+terraform destroy + yes
+
+================== vpc setup ==================
+
+
 
 
 
