@@ -148,6 +148,90 @@ terraform destroy + yes
 
 ================== vpc setup ==================
 
+terraform state
+Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources to your configuration, keep track of metadata, and to improve performance for large infrastructures.
+
+This state is stored by default in a local file named "terraform.tfstate", but it can also be stored remotely, which works better in a team environment.
+"it will monitor the all your actions on terraform"
+
+========Pre Variables======
+for variables refer below url
+https://github.com/hashicorp/learn-terraform-modules
+https://learn.hashicorp.com/tutorials/terraform/variables?in=terraform/configuration-language&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
+
+https://github.com/addamstj/Terraform-012/blob/master/variables/main.tf
+
+** reference all variables ex: string,number,array
+
+provider "aws" {
+  region = "eu-west-2"
+}
+
+
+variable "vpcname" {
+  type    = string
+  default = "myvpc"
+}
+
+variable "sshport" {
+  type    = number
+  default = 22
+}
+
+variable "enabled" {
+  default = true
+}
+
+variable "mylist" {
+  type    = list(string)
+  default = ["Value1", "Value2"]
+}
+
+variable "mymap" {
+  type = map
+  default = {
+    Key1 = "Value1"
+    Key2 = "Value2"
+  }
+}
+
+variable "inputname" {
+  type        = string
+  description = "Set the name of the VPC"
+}
+
+resource "aws_vpc" "myvpc" {
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = var.inputname
+  }
+}
+
+output "vpcid" {
+  value = aws_vpc.myvpc.id
+}
+
+variable "mytuple" {
+  type    = tuple([string, number, string])
+  default = ["cat", 1, "dog"]
+}
+
+variable "myobject" {
+  type = object({ name = string, port = list(number) })
+  default = {
+    name = "TJ"
+    port = [22, 25, 80]
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
