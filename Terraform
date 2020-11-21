@@ -234,6 +234,7 @@ output we will get the all details of created vpc by using terraform
 ******** for more : https://www.terraform.io/docs/configuration/variables.html (refer this url)
 
 
+=============================== ec2 ==================================
 
 
 
