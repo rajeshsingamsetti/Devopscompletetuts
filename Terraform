@@ -43,6 +43,43 @@ lack of support (paid for support)
 
 How to use terraform on aws
 
+let's start
+
+install microsoft visual studio code in mac or windows
+install terraform plugin on visual studio code
+
+* install terraform on mac
+download zip file from terraform official site
+
+after follow the below official document
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+to check terraform installed or not in your system u simply enter the below command
+
+terraform version
+
+================now we need to configure aws=====================
+login into aws account 
+Go to iam
+add user
+username ==> give programatic access ==> next ==> click on attach existing policy + check on administartion access ==> next ==> click on create user ==> 
+
+install configure aws cli
+to configure
+aws configure
+==================
+RAJs-MBP:bin rajsingam$ aws configure
+AWS Access Key ID [None]: AKsdsdIAQ5WQEB7SJIDCHSVQ
+AWS Secret Access Key [None]: rbZsdsdffdfyFSFVfgWxgfgEBCfznufpJNEdMefGooRCo8AG1yyU
+Default region name [None]: ap-south-1
+Default output format [None]: 
+RAJs-MBP:bin rajsingam$ aws s3 ls
+2020-05-27 16:03:38 dev.k8s.demo.rajnew
+====================
+****** tutor githubcode for reference
+https://github.com/addamstj/Terraform-012
+
+
 
 
 
