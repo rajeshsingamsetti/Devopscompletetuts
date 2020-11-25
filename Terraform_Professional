@@ -162,6 +162,72 @@ https://github.com/Sanjeev-Thiyagarajan/Terraform-Crash-Course
 from now again madhu
 
 
+terraform init
+terraform plan -var_file terraform.tfvars --auto-approve
+
+** must be take care of state file
+
+types of files
+.tf
+.tfvars
+.state
+
+real time
+
+clone github repo
+https://github.com/mavrick202/terraformsingleinstance
+
+rm -rf docker.service jenkibuildscript packer.json 
+
+after
+the main code will be there in main.tf file
+
+flow
+main to variable.tf --> .tfvars
+in output file remove all the existing data and add the below code to get vpc name
+
+output "vpc_name" {
+  description = "list of vpc name"
+  value = ["${aws_vpc.default.tags.Name}"]
+}
+
+
+"change terraform.tfvars into prod.tfvars"
+
+in that file give ur aws acceesskey & secreat key
+
+
+*** now we have to run our dry run
+terraform plan --var-file prod.tfvars
+
+terraform apply --var-file prod.tfvars (it will apply on real time on to our servers)
+
+** to know what we are deployed we can known bt
+terraform state list
+
+* terraform show (it will clearly explain the what we did in our operation)
+
+
+** Note one folder inside we can't run multiple tfvar files bcoz state problem(it will overwrite the old data)
+
+
+** to destory
+terraform destory --var-file prod.tfvars
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
