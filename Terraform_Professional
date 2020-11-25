@@ -156,6 +156,19 @@ the diff b/w var.tf and terraform.tfvars (is we can change the dynamic code only
 
 the procedure is
 main.tf ==> variable.tf => terra.tfvars (we don't change the main code we only change in tfvars)
+======================================terraform real time project udemy================
+https://github.com/Sanjeev-Thiyagarajan/Terraform-Crash-Course
+=============================================================================
+from now again madhu
+
+
+
+
+
+
+
+
+
 
 
 
