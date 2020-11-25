@@ -232,6 +232,16 @@ Note "
 never user workspace bcoz of thread(overwritten the all files) insted of we can use multiple folders
 
 
+*** we never share or push a state file to github
+
+now we copy our entire project and pasted in another location
+
+now parent folder apply the terraform
+now go to same child (note terraform.tfstate file must be there ) otherwise its duplicates your data
+
+""" insted of coping everytime the .tfstate file we can use terraform state backend"""
+
+
 
 
 
