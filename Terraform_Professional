@@ -214,6 +214,26 @@ terraform state list
 ** to destory
 terraform destory --var-file prod.tfvars
 
+** now when we work on multiple tfvars we can use "workspace" its nothing but a git branch type
+
+terraform workspace show
+
+to create a new work space
+terraform workspace new prod
+
+terraform workspace list
+
+terraform workspace new dev
+
+terraform plan --var-file dev.tfvars (by using workspace we can use muktiple variable files)
+terraform plan --var-file prod.tfvars (by using workspace we can use muktiple variable files)
+
+Note "
+never user workspace bcoz of thread(overwritten the all files) insted of we can use multiple folders
+
+
+
+
 
 
 
