@@ -241,7 +241,18 @@ now go to same child (note terraform.tfstate file must be there ) otherwise its 
 
 """ insted of coping everytime the .tfstate file we can use terraform state backend"""
 
+we can use terraform back end
+go to aws create aws s3 bucket
 
+terraform {
+  backend "s3" {
+    bucket = "terrabackendraj"
+    key    = "myterraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
+ref url: https://github.com/mavrick202/terraformsingleinstance/blob/remotebackends3/main.tf
 
 
 
