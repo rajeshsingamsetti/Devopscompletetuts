@@ -458,6 +458,19 @@ aws --version
 go to aws create a user and add take acees key
 aws configure
 
+now go to our mac now according to code
+create a bucket in s3 aws (in the name of our terraform code)
+in mac
+terraform init
+terraform plan --var-file prod.tfvars (or terraform plan -var-file terraform.tfvars)
+terraform apply
+
+git status
+
+
+
+
+
 
 
 
