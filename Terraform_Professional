@@ -668,7 +668,36 @@ to remove from state list
 terraform state rm aws_subnet.rajvpcsubnet4-public
 
 ===========================================================================================================================================================
+					     Functions
+without code duplication create subnets in different availability zones and diff cidr's
 
+az = us-east-1a,us-east-1b,us-east-1c
+cidrs = 10.1.1.0/24,10.1.2.0/24,10.1.3.0/24,10.1.4.0/24,10.1.5.0/24
+
+to avoid code duplicate (pasting subnets multiple times) we can use terraform functions
+
+to set variables on variables.tf file
+variable "azs" {
+  description = "Run the EC2 Instances in these Availability Zones"
+  type = "list"
+  default = ["us-east-1a", "us-east-1b", "us-east-1c"]
+}
+variable "cidrs" {
+  description = "Cidr's for subnets"
+  type = "list"
+  default = ["10.1.1.0/24", "10.1.2.0/24", "10.1.3.0/24"]
+}
+
+
+main.tf 
+
+ref url of functions:
+https://www.terraform.io/docs/configuration/functions.html
+
+in functions we use
+length
+count
+element
 
 
 
