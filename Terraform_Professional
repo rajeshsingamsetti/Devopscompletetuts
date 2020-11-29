@@ -622,6 +622,56 @@ in real time never give
 -lock=false
 terraform apply -lock=false(it will cause issues)
 
+===============================terraform data points=======================================================
+terraform import => imports manually created resources in to configuration and we can manage it even delete it
+terraform DataSources => let terraform know about the resources which are the not part of it
+"to manage the existing resources but don't had an right of delete it"
+
+"terraform refresh is used for refreshing of the state of terraform"
+
+add this below code in ur main.tf file
+it will fetch the exsiting vpc details
+
+data "aws_vpc" "Rajvpc" {
+  id = "vpc-0d143ca90e92391ad"
+}
+now run 
+terraform refresh
+
+***** note: once by using datasource vpc or anything is created its related all attributes are imported from that particular service like tagname,cidr_block,routetable_name.
+
+by using data source we create vpc and one subnet
+
+data "aws_vpc" "Rajvpc" {
+  id = "vpc-0d143ca90e92391ad"
+}
+
+resource "aws_subnet" "rajvpcsubnet4-public" {
+    vpc_id = "${data.aws_vpc.Rajvpc.id}"
+    cidr_block = "10.0.4.0/24"
+    availability_zone = "us-east-1a"
+
+    tags = {
+        Name = "Rajvpc-subnet-4"
+    }
+}
+
+add above code in ur main.tf file
+
+====================== to delete a specific resource from terraform========
+terraform destroy -target aws_subnet.rajvpcsubnet4-public
+
+to remove from state list (bcoz if u delete particulat subnet code also it exist on state to remove from state list also follow below procedure)
+terraform state list
+
+to remove from state list
+terraform state rm aws_subnet.rajvpcsubnet4-public
+
+===========================================================================================================================================================
+
+
+
+
 
 
 
