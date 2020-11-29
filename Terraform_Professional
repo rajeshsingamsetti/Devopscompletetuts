@@ -465,7 +465,170 @@ terraform init
 terraform plan --var-file prod.tfvars (or terraform plan -var-file terraform.tfvars)
 terraform apply
 
+if any changes in mac commite it
 git status
+
+now come to ubuntu machine
+cd project file
+git pull sshurl master
+
+terraform state list
+
+Command 'terraform' not found, but can be installed with
+
+terraform not found on ubuntu we need to install terraform on ubuntu
+install on ubuntu
+cd /usr/local/bin/
+wget https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip
+unzip terraform_0.13.5_linux_amd64.zip 
+
+cd terraformprivate/(our main git clone project on root)
+
+terraform init
+terraform state list
+
+remove output.tfx and make it output.tf and paste the below code
+ouput "vpc_name" {
+  description = "list of vpc name"
+  value = ["${aws_vpc.default.id}"]
+}
+
+after terraform init
+terraform apply
+
+git status (now output file will be changed)
+git add . && git commit -m "changes"
+git push origin master
+
+go to github now the code is changed
+
+Now come to mac user 
+git pull https://github.com/rajeshsingamsetti/terraformprivate.git master(url of github master)
+
+now we had chances that multiple people override for that we are using lock system
+
+
+use the below code create a onefile in mac name it as a dynamodb.tf
+
+# example.tf
+# create a dynamodb table for locking the state file
+resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
+  name = "terraform-state-lock-dynamo"
+  hash_key = "LockID"
+  read_capacity = 20
+  write_capacity = 20
+ 
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+ 
+  tags = {
+    Name = "DynamoDB Terraform State Lock Table"
+  }
+}
+
+now run terraform plan (it will create dynamodb table we can see that in terminal)
+after plan success apply it
+terraform apply
+
+after go to aws dynamodb 
+we will see on table in under dynamodb
+
+after creating dynamo db table now you need to add 2 lines od code in your s3backend as it shown below like this
+
+encrypt = true
+dynamodb_table = "terraform-state-lock-dynamo"
+    
+now under main.tf under s3 file shold be like this
+
+terraform {
+  backend "s3" {
+    bucket = "terrabucketn1"
+    key    = "myterraform.tfstate"
+    region = "us-east-1"
+    encrypt = true
+    dynamodb_table = "terraform-state-lock-dynamo"
+
+  }
+ }
+ 
+ 
+
+after 
+terraform apply (it will throgh error bcoz we need to intialize)
+after intialize successfully change ur code small correction like add tags then apply it)
+terraform apply
+now go to aws dynamo db u will see one table means (dynamolock configure successfully)
+
+now in ur mac user
+git status
+git add .
+git commit -m  "dynamo lock"
+git push origin master
+
+Now go to ubunti user 
+
+git pull git@github.com:rajeshsingamsetti/terraformprivate.git master
+
+
+***** now go to mac user change the name or anything and save it
+
+terraform apply (note now don't type yes)
+
+now go to ubuntu server
+
+terraform apply (you will see init if error comes init it after apply it now u can see that its locked)
+
+*****now we will see the lock like this****
+Error: Error locking state: Error acquiring the state lock: ConditionalCheckFailedException: The conditional request failed
+Lock Info:
+  ID:        57a7fa51-35e5-9969-d51f-ae6e6e897010
+  Path:      terrabucketn1/myterraform.tfstate
+  Operation: OperationTypeApply
+  Who:       rajsingam@RAJs-MBP
+  Version:   0.13.5
+  Created:   2020-11-29 16:28:06.345226 +0000 UTC
+  Info:      
+
+
+Terraform acquires a state lock to protect the state from being written
+by multiple users at the same time. Please resolve the issue above and try
+again. For most commands, you can disable locking with the "-lock=false"
+flag, but this is not recommended.
+*******************************************************************
+after yes
+git add . && git commit -m "mac userdata"
+git push origin master
+
+
+now in ubutu 
+
+
+git pull git@github.com:rajeshsingamsetti/terraformprivate.git master
+
+change name or any thing 
+terraform apply
+don't type yes
+
+now come to mac user type 
+terraform apply
+
+now we will get lock error on mac user also
+
+** so now we will get lock in all user by using multiple admin we will work same time without any issues
+
+in real time never give 
+-lock=false
+terraform apply -lock=false(it will cause issues)
+
+
+
+
+
+
+
+
 
 
 
