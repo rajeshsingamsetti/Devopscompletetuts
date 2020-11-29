@@ -403,7 +403,66 @@ terraform {
 #https://discuss.devopscube.com/t/how-to-get-the-ami-id-after-a-packer-build/36
 
 
-============================
+============================ Terraform Dynamodblocking==================
+When multiple enginers working on same project same files at that time we may face some problems due to conflicts on working on same files to avoid that cause create 
+locking system
+
+as of now assume i had configured terraform same project on my mac and aws ubuntu machine at that time we work on same project same file we may get conflict to overcome
+we can use the locking system
+
+open aws and launch ubuntu machine
+
+create one private repo on github
+create one file i ur terraform project as the 
+.gitignore
+.terraform
+*.exe
+efs.yml
+
+rm -rf .git
+git init
+git remote add origin add private url
+git status (now u will observer .terraform etc file will removed)
+
+git add .
+git commit -m "terra main code"
+git push origin master
+
+after pushing our code is: https://github.com/rajeshsingamsetti/terraformprivate/tree/master
+
+Now go to ubuntu machine launch it
+
+ssh-keygen
+hit enter 3 times
+
+cat /root/.ssh/id_rsa.pub
+
+copy the total code and go to git that particular private repo and settings
+
+left side click on deploy keys under ssh paste your copy code give any title u want 
+
+come to ubuntu machine clone ur private repo
+choose clone ssh ur github private repo (not http go with ssh)
+git clone sshurl
+
+for ubuntu create a new iam role for terraform
+
+now we need to install aws cli on ubuntu machine
+
+for ubuntu 18.03 install aws cli through
+
+apt-get update -y
+apt-get update install awscli
+aws --version
+
+go to aws create a user and add take acees key
+aws configure
+
+
+
+
+
+
 
 
 
