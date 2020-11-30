@@ -750,6 +750,25 @@ in main.tf also count change to above count variable type
 
 terraform plan 
 -------------------------
+local_exec
+remote_exec
+
+
+local_exec
+when terraform execution perform some actions like add some data we use localexec
+ex; create a one seperate file like :nullresource.tf
+resource "null_resource" "localexec" {
+    count = "${var.environment == "Prod" ? 3 : 1}"
+    provisioner "local-exec" {
+    command = <<-EOF
+      echo "${element(aws_instance.public-instances.*.public_ip, count.index)}"  >> details.txt
+    EOF
+    }
+}
+
+
+
+
 now we r going to null resource
 
 what is null resource:
