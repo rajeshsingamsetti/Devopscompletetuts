@@ -769,6 +769,7 @@ resource "null_resource" "localexec" {
 
 
 
+
 now we r going to null resource
 
 what is null resource:
