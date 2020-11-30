@@ -704,6 +704,59 @@ terraform functions reference github url:
 https://github.com/rajeshsingamsetti/terraformfunctions1/tree/master
 
 
+=============================================terraform another functions======
+lookups
+conditional
+
+null resource and taint usage
+local-exec
+remote exec
+for_each
+depends_on
+locals
+			lookup
+without lookup if u run ur code in any another region it fails by using lookup your code will run in any regions 
+
+ec2.tf
+example: ami = "${lookup(var.amis, var.aws_region, "us-east-1")}"
+
+in variable.tf
+
+variable "aws_region" {}
+variable "amis" {
+    description = "AMIs by region"
+    default = {
+      us-east-1 = "ami-00ddb0e5626798373" # ubuntu 14.04 LTS
+      us-east-2 = "ami-0ebc8f6f580a04647" # ubuntu 14.04 LTS
+    }
+}
+
+
+terraform init 
+terraform plan
+
+after sucess run instance created ami it will take the region of us-east1
+
+Conditional Expressions
+
+refurl: https://www.terraform.io/docs/configuration/expressions.html
+
+"environment" == "Prod" ? 3 : 1
+
+give above line in ec2 under count 
+count = "${var.environment == "Prod" ? 3 : 1}"
+
+in main.tf also count change to above count variable type
+
+terraform plan 
+-------------------------
+now we r going to null resource
+
+what is null resource:
+
+
+
+
 
 
 
