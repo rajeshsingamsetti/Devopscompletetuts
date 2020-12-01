@@ -1,0 +1,306 @@
+aws => devops => azure => k8's => python
+
+why aws
+roadmap for aws carrer
+aws account creation
+iaas vs paas vs saas
+check jobs available on aws
+
+why aws 
+good in iaas ,more jobs, rapid developement,Heavy automation tools
+
+AWS Regions & Avaialability zones
+
+ref url:
+https://aws.amazon.com/about-aws/global-infrastructure/?p=ngi&loc=0
+https://aws.amazon.com/about-aws/global-infrastructure/regions_az/
+
+more graphical about az and regions
+ref url:
+https://infrastructure.aws/
+
+az means region inside a place with in 100km a dataceneters will exist
+
+3 tier or multi tier archetecture menans
+we have one service like flipkart if we deploy that service in only 1 az that az gone means evertything is gone in aws we don't fallbackloops.
+
+to overcome load or availability we need to deploy our webapp on multi az then 1 az gone means another az will available
+
+virualization:
+ec2 every machine is virutualization
+
+physical server
+hypervisor
+webapps
+db
+
+dedicated physical servers high cost rarely using
+
+======================================
+IP Adressing
+2 types
+ipv4 32 bit size -- 
+172.217.13.228
+1.0.0.0 to 255.255.255.255
+ipv6 64 bit --- 
+now no one are using ipv6
+
+mostly using ipv4
+ip address class
+refurl:
+https://www.paessler.com/it-explained/ip-address
+
+Class	Address range
+Class A	1.0.0.1 to 126.255.255.254
+private range:
+10.0.0.0 – 10.255.255.255
+
+Class B	128.1.0.1 to 191.255.255.254
+private range:
+172.16.0.0 – 172.31.255.255
+
+Class C	192.0.1.1 to 223.255.254.254
+private range:
+192.168.0.0 – 192.168.255.255
+
+Class D	224.0.0.0 to 239.255.255.255
+
+world every ip exist in above classes
+
+ class a network is enterprice network
+diff bw pubic & private ip
+ex: 10 th hall ticket in ur own school rollno
+
+private ip is internal network communication purpose
+publicip is communicate over internet 
+
+==========subneting===================
+refurl: http://www.subnet-calculator.com/subnet.php?net_class=A
+000 - 1
+001 - 2
+010 - 4
+011 - 8
+100 -16
+101- 32
+110 - 64
+111 - 128
+
+if we add all bits we will get 255 bit
+
+10.1.0.0/16 > 65k
+10.1.1.0/24 > 255 
+10.1.2.0/24 > 255 
+
+vpc use
+custom own network layer or interface
+more security
+
+==================================================================vpc==============================================================================
+BY DEFAULT WE can create 5 vpc only of we need more we need to send request to aws team
+
+when we create vpc it will create its own layers and all the instances are present in network and all instances will communicate in same network layer .but different
+network layeres we won't able to join .
+note when we create subnet we don't had an chance to change
+By default aws we will have an vpc
+vpc archetecture 
+ref url: https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/03/22/VPC-Architecture-1.jpg
+lets create a vpc
+=================steps to create a vpc===============
+
+1. Decide on VPC name and create a new VPC. For this class VPC name is AWS-JAN-21-VPC and IP Address space we are going to use is 10.1.0.0/16 =>65000 IPs. 
+Enable DNS Hostnames.
+
+2. Create three subnets in AWS-JAN-21.Enable automatic IP Assignment.
+
+JAN-21-Subnet1 - 10.1.1.0/24 -1a
+JAN-21-Subnet2 - 10.1.2.0/24 -1b
+JAN-21-Subnet3 - 10.1.3.0/24 -1c
+
+3. Create internet gateway and attach it to VPC. IGW name is AWS-JAN-21-IGW.
+
+4. Create new routing table for AWS-JAN-21 and assosiate subnets to it. Ignore the default routing table.
+
+5. Add routes in the routing table towards Internet Gateway.
+
+6. Create a security group Infy-VPC-SG and allow all in bound ports.
+
+7. Create a Key-Pair which create Public and Private Keys. AWS will have Public Key and you will be given private key. We need to use the private key to login to the instance.
+
+8. Deploy a Linux t2.micro instance and connect to it using private key u have created.
+
+=======================================================================================================
+
+detail explanation
+Virtual private cloud . 10.2.1.0/24
+1. Decide what IP Range we need to use : 10.0.0.0/16 (255.255.0.0)
+2. Create a VPC and name it as rajvpc. ENable DNS Hostnames.
+3. Create 3 Subnets as below:
+   raj-Subnet-1 - 10.1.1.0/24 - us-east-1a
+   raj-Subnet-2 - 10.1.2.0/24 - us-east-1b
+   Ford-Subnet-3 - 10.1.3.0/24 - us-east-1c
+Once Subnets are created, enable automatic public ip assignment.
+4. Create internet gateway using Name Ford-IGW and attach to VPC.
+5. Create a new routing table as Ford-Main-Table and attach Subnets to it.
+6. Create a route towards IGW.
+7. Create a Security Group and allow all ports.
+8. Create a Key Pair.
+9. Deploy a new VM/Instance/Server and connect using the key u created in step 8.
+
+
+Step2:as follows click on create.
+*** choose ur vpc actions → edit dns hostname → enable→ save that vpx
+NoteWhen we are creating a vpc then default some route and network acls and security groups are created.
+.
+Step 3. Create 3 Subnets as below:
+   raj-Subnet-1 - 10.0.1.0/24 - us-east-1a
+   raj-Subnet-2 - 10.0.2.0/24 - us-east-1b
+   raj-Subnet-3 - 10.0.3.0/24 - us-east-1c
+Once Subnets are created, enable automatic public ip assignment.
+Here we need to add 3 subnets with different availabilty zones and different cidr.
+
+
+
+Now our vpc is present on 3 availability zones of n.verginia region.
+Note: when u created subnetes ut will take as az to that region.
+*** after all subenets created → check ur each and every subnet → modify auto assign ipaddress→ check on enable auto assign ipaddress.
+4. Create internet gateway using Name raj-IGW and attach to VPC
+Note : if u want get access your vpc we need Internet Gateway(IGW)
+Go to internetgateway → create → give ur igw name.
+
+After creating ur gateway check on ur gateway and actions choose ur attach vpc → search ur vpc name → attach it.
+
+Note: we only attach one internet gateway to one vpc .(we can’t attach multiple igw to 1 VPC).
+
+ 5. Create a new routing table as Ford-Main-Table and attach Subnets to it.
+By using routes we can guide them how it will go outside.
+
+Click on route tables → create a route table → name rajroute → choose rajvpc → click on create.
+5. Create a new routing table as Ford-Main-Table and attach Subnets to it.
+
+
+After creating ur route table → check ur route name → below tab click on subnet association → here u will see all the subnets. → edit → check 3 subnets → click on save.
+
+Above setup we did for internal communication thats why we add routes to subnet.
+6. Create a route towards IGW.
+If we want access from outside we need tell that routes when we access from outside follow this procedure for that → 
+Check ur routes below click on routes tab → click on edit routes → add rule → in destination (0.0.0.0/0) + target (internet gateway click on it + choose ur gateway) → click on save.
+
+
+7. Create a Security Group name rajvpc and allow all ports.
+Now it wiil allow all traffic from outside for securing purpose we are going to add the security groups .
+Create a security group → give name of security group → and under vpc + choose our vpc → inbound rules (for demo purpose all traffic in real time don’t use all traffic) →
+Create security group.
+
+
+8. Create a Key Pair. (create a ur own key )
+As of now i am using my default key.
+For that go to ec2 → create your own key.
+
+DEploy a linux micro instance ..
+
+
+Under configure details follow above procedure.--> security groups choose ur rajvpc security groups → key pair don’t have create it or exist use it → launch instance.
+
+After go to the terminal using mobxtream or putty.using public ip address.
+
+If its logged in means successfully we configure vpc.
+===========================================================================
+
+                                                                    VPC PEERING
+To connecting 2 vpc’s called as the vpc peering.
+
+Previously vpc peering available in same region but now vpc peering available on across all regions
+
+2 types:
+Inside region
+Outside region
+
+Uses :
+Single company.
+Testing development and production
+Multi companies:
+We can peering b/w employees can access other company servers and vice versa
+For security purpose:
+
+If u want access any vpc like testing or dev first u need to managed or secured by management vpc.
+Hands on create 3 vpcs on 2 vpc or in one region and 1 vpc in different region.
+Ex:n.vieginia 2 vpcs and mumbai 1 vpc.
+
+
+
+
+
+After go to ec2 and launch the instances.
+Ec2 → micro → configure → choose rajvpc1 → choose ur subnet → practise purpose (security group allow all) → launch instance..
+Same above process launch other instance in rajvpcsameregion
+
+Login 2 servers of same region in terminal.
+Login in to 2 servers ping from one server to another server of private ip not pulicip.
+Note: when private ip’s are pinging then vpc peering done successfully.not public
+
+Initially it wont ping after we did vpc peer it will ping.
+
+For vpc peering.
+Note: vpc peering 2 servers don’t have same ip if exists it will through an error
+Go to aws -> vpc connection → create a peering connection → tagname (rajpeering to rajvpc1) →  select under local vpc under → choose the vpc of rajvpc → select another vpc accepter → choose our another (sameregionvpc) → create a vpc peering.
+
+Afte it will show pending for that → actions → accept request → ok.--> now the status will be active .
+
+ .
+
+
+
+
+After that go to rajvpc instance terminal ping another server private ip it won’t work.
+Because we need to update the route table. Of 2 vpc routes
+Now first  go to rajvpc routes → below routes tab → click on edit → under destination u 
+
+have to give the another server vpc range (means sameregion vpc range is 10.0.1.0/16) → target choose peer connection (chooose raj peer connection ) → click on ok.
+
+Now go to route of rajsameregion check this and below roues add destination ip is (the ip range of rajvpc 10.0.0.0/16) → target + peerconnection choose raj peer connection → click on ok.
+
+After all settings done gop to rajvpc ec2 terminal nad ping the private ip address of rajsameregion (second server ) now it will ping the private ip address.
+
+Note: if u want check this doing exactly peering or not just go to vpc routes → edit ---> under destination (change the ip range from default value to anything it will stop the pinging again u revert back it will start to pinging once).
+
+As of Now above we did only in same region if that vpc there in out of region it will be chargeable follow below procedure.
+
+NOte: of u want perform multi region peering the keypair of ec2 instance login it must be same.
+For that go to mumbai region → under ec2 → keypair → actons → import → place the ppk file of other instance or → under public key contents + copy the instance public key below procedure as follows. → click on import.
+
+If u want get a public key login into server → ec2-metadata (under last we will get ssh-rsa public key copy that and .
+
+Launch the instances.
+Launch instance in mumbai region → choose key what we configure key.
+
+Creata peering connection → name northverginia instance to mumbai → choose nvregionvpc (as a requester) → under select another vpc peer with + region tab choose another region choose mumbai region → under vpc acceptance (input field copy the vpc id of mumbai region vpc) go to mumbai vpc check below summary u will find vpcid →paste in acepter vpc → create peering connection .
+
+****** if u want activate the peering connection go to your destination peerconnection region  → under peer connection action u will find the activate peer connection.(this connection for actions not showing enable peerconnection on source vpc).
+
+
+Now login into two terminals try to ping it won’t ping now we need to configure the 2 routing tables.
+
+Routing tables -> edit routes → destination + give mumbai ip range ) → target -->choose vpc peerconnection choose ur peer connection).
+
+Routing tables -> edit routes → destination + give mumbai ip range ) → target -->choose vpc peerconnection choose ur peer connection)
+
+Now u can go to another server routes follow above the same procedure now it will pingf.
+
+Now not ping now i want access the nv server from my mumbai server for that we need to configure pemfile.
+
+Login into mumbai server as a root → sudu su -
+After create a file with same name → vi sp-key.pem (paste the key pair pem file total code in this file).
+Note: keypair should be common between both servers,
+After pasting the pem file now from ur root of mumbai server uf u access means it will through an error.
+Bcoz we need provide read permission to pemfile for that
+chmod 400 sp-key.pem
+
+Now from root try like this below way.
+root@ip-10.64.63]#   ssh -i sp-key.pem ec2-user@privateipofserver + enter 
+
+Now u can successfully login into that server from mumbai.
+Note : if u want access tha another server peering must be enable.
+
+*** when vpc concept → ip’s are must be different otherwise ip’s are overlap.
+Vpc transit won’t work.
+
