@@ -123,21 +123,26 @@ By default aws we will have an vpc
 vpc archetecture 
 ref url: https://d2908q01vomqb2.cloudfront.net/77de68daecd823babbb58edb1c8e14d7106e83bb/2018/03/22/VPC-Architecture-1.jpg
 lets create a vpc
-=================steps to create a vpc===============
+=================steps to create a vpc=============== (multiple vpc had same private id we don't have no problem bcoz vpc's isolated that too its going diff igw)
+
+** main source: https://docs.google.com/document/d/1nt6h_cDQqESPaInvpvpKdtUqgd0e2N-ra61qZedVfbE/edit
+**: 1 own 111 slide: https://docs.google.com/presentation/d/1jOk9XdxR35zI4sYA2vacSSwz8KGtvpFbs_Fk3Jti5yE/edit#slide=id.p
+** 2 documentation: https://drive.google.com/file/d/1X73iKh-c-TXUvMd6TIfsGKKK9Z9fZ5TX/view?ths=true
 
 1. Decide on VPC name and create a new VPC. For this class VPC name is AWS-JAN-21-VPC and IP Address space we are going to use is 10.1.0.0/16 =>65000 IPs. 
 Enable DNS Hostnames.
 
 2. Create three subnets in AWS-JAN-21.Enable automatic IP Assignment.(it will auto assign public ip's to ur subnet instances).
-
+(subnet ranze should be unique)
 JAN-21-Subnet1 - 10.1.1.0/24 -1a
 JAN-21-Subnet2 - 10.1.2.0/24 -1b
 JAN-21-Subnet3 - 10.1.3.0/24 -1c
 
 3. Create internet gateway and attach it to VPC. IGW name is AWS-JAN-21-IGW.
-
+*when vpc created default one route table will created
 4. Create new routing table for AWS-JAN-21 and assosiate subnets to it. Ignore the default routing table.
-
+edit routes --> add route 0.0.0.0 + internetgateway(choose select it). + save route
+=subnet assosation --> add your subnets 
 5. Add routes in the routing table towards Internet Gateway.
 
 6. Create a security group Infy-VPC-SG and allow all in bound ports.
@@ -152,7 +157,7 @@ detail explanation
 Virtual private cloud . 10.2.1.0/24
 1. Decide what IP Range we need to use : 10.0.0.0/16 (255.255.0.0)
 2. Create a VPC and name it as rajvpc. ENable DNS Hostnames.
-3. Create 3 Subnets as below:
+3. Create 3 Subnets as below:(subnet ranze should be unique)
    raj-Subnet-1 - 10.1.1.0/24 - us-east-1a
    raj-Subnet-2 - 10.1.2.0/24 - us-east-1b
    Ford-Subnet-3 - 10.1.3.0/24 - us-east-1c
