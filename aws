@@ -54,15 +54,15 @@ Class	Address range
 Class A	1.0.0.1 to 126.255.255.254
 private range:
 10.0.0.0 – 10.255.255.255
-
+all office private ip will be in 10 ranges (if we need more ip's we choose class a willgive 16 million hosts)
 Class B	128.1.0.1 to 191.255.255.254
 private range:
 172.16.0.0 – 172.31.255.255
-
+(class b having 65,000 ) ip address
 Class C	192.0.1.1 to 223.255.254.254
 private range:
 192.168.0.0 – 192.168.255.255
-
+class c having (254 ip addresss)
 Class D	224.0.0.0 to 239.255.255.255
 
 world every ip exist in above classes
@@ -71,9 +71,11 @@ world every ip exist in above classes
 diff bw pubic & private ip
 ex: 10 th hall ticket in ur own school rollno
 
-private ip is internal network communication purpose
-publicip is communicate over internet 
+*** we most lo enterprise we work on classa
 
+private ip is internal network communication purpose(inside over network communication).
+publicip is communicate over internet (all world public ip should be unique)
+nat gateway is a router provide internet access to all machines
 ==========subneting===================
 refurl: http://www.subnet-calculator.com/subnet.php?net_class=A
 000 - 1
@@ -86,11 +88,17 @@ refurl: http://www.subnet-calculator.com/subnet.php?net_class=A
 111 - 128
 
 if we add all bits we will get 255 bit
-
+(subneting)
+ref url of subnet calculator: http://www.subnet-calculator.com/subnet.php?net_class=A
 10.1.0.0/16 > 65k
 10.1.1.0/24 > 255 
 10.1.2.0/24 > 255 
 
+if i need only 32 ips we will go with above calculator
+and network class is check A --> ip address:10.1.1.0 and under host per subnet choose nearest value 32 is 64 thats why i am choosing 64 + subnet mask 255.255.255.0
+again 2 nd subnet --> 10.1.1.64 --> subnet range 64  + + subnet mask 255.255.255.0
+
+(don't more think about subnet just know 10.1.1.0/24 && 10.1.2.0/24
 vpc use
 custom own network layer or interface
 more security
