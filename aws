@@ -99,6 +99,16 @@ and network class is check A --> ip address:10.1.1.0 and under host per subnet c
 again 2 nd subnet --> 10.1.1.64 --> subnet range 64  + + subnet mask 255.255.255.0
 
 (don't more think about subnet just know 10.1.1.0/24 && 10.1.2.0/24
+
+10.1.1.0/24 --> 254 ip's
+   /25 (half of 23) --> 122
+   /26 --> 60
+   /27 --> 30 ip's
+ -----------public cloud &&& private cloud difference----------
+ public cloud everyone can acess --> aws,azure,
+ (we work public servers in public network we are create own network layer is called as vpc)
+ private cloud only with in a network we don't use it).
+ 
 vpc use
 custom own network layer or interface
 more security
@@ -118,7 +128,7 @@ lets create a vpc
 1. Decide on VPC name and create a new VPC. For this class VPC name is AWS-JAN-21-VPC and IP Address space we are going to use is 10.1.0.0/16 =>65000 IPs. 
 Enable DNS Hostnames.
 
-2. Create three subnets in AWS-JAN-21.Enable automatic IP Assignment.
+2. Create three subnets in AWS-JAN-21.Enable automatic IP Assignment.(it will auto assign public ip's to ur subnet instances).
 
 JAN-21-Subnet1 - 10.1.1.0/24 -1a
 JAN-21-Subnet2 - 10.1.2.0/24 -1b
