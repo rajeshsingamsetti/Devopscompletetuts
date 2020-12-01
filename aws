@@ -326,4 +326,6 @@ Note : if u want access tha another server peering must be enable.
 
 *** when vpc concept → ip’s are must be different otherwise ip’s are overlap.
 Vpc transit won’t work.
+******** ec2-metadata copy key and paste in all key files .
+note : another region and another account same key file will be needed.
 
