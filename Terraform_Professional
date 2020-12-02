@@ -716,6 +716,27 @@ depends_on
 locals
 			lookup
 without lookup if u run ur code in any another region it fails by using lookup your code will run in any regions 
+https://github.com/rajeshsingamsetti/terraformfunctions1/tree/master
+
+remove state files
+and rename the dynamodb.tf to dynamo.tf1
+and go to main.tf
+
+comment the backend s3
+# terraform {
+#   backend "s3" {
+#     bucket = "terrabucketn1"
+#     key    = "myterraform.tfstate"
+#     region = "us-east-1"
+#     encrypt = true
+#     dynamodb_table = "terraform-state-lock-dynamo"
+
+#   }
+# }
+
+and ec2.tf the private subnet total bracket should be in comments we enough to public subnet
+
+now by using lookups whereever the region will be there it will take automatically
 
 ec2.tf
 example: ami = "${lookup(var.amis, var.aws_region, "us-east-1")}"
@@ -726,10 +747,38 @@ variable "aws_region" {}
 variable "amis" {
     description = "AMIs by region"
     default = {
-      us-east-1 = "ami-00ddb0e5626798373" # ubuntu 14.04 LTS
+      us-east-1 = "ami-00ddb0e5626798373" # ubuntu 14.04 LTS(us region ami number give here)
       us-east-2 = "ami-0ebc8f6f580a04647" # ubuntu 14.04 LTS
     }
 }
+
+in main.tf file remove below code private nat remove
+//private route
+resource "aws_route_table_association" "terraform-private" {
+    count = "${length(var.private-cidrs)}"
+    subnet_id = "${element(aws_subnet.private-subnets.*.id, count.index)}"
+    route_table_id = "${aws_route_table.terraform-private.id}"
+}
+
+//private routing table
+resource "aws_route_table" "terraform-private" {
+    vpc_id = "${aws_vpc.default.id}"
+
+    route {
+        cidr_block = "0.0.0.0/0"
+        gateway_id = "${aws_nat_gateway.ngw.id}"
+    }
+
+    tags = {
+        Name = "${var.Private_Routing_Table}"
+    }
+}
+
+and rename the eip-nat.tfx (elastic ip rename the file)
+
+go to terraform.tfvars
+change the acees key and security key
+
 
 
 terraform init 
@@ -747,7 +796,8 @@ give above line in ec2 under count
 count = "${var.environment == "Prod" ? 3 : 1}"
 
 in main.tf also count change to above count variable type
-
+in public subnets creation count give likke
+count = 1
 terraform plan 
 -------------------------
 local_exec
