@@ -741,7 +741,7 @@ now by using lookups whereever the region will be there it will take automatical
 ec2.tf
 example: ami = "${lookup(var.amis, var.aws_region, "us-east-1")}"
 
-in variable.tf
+in variable.tf be like below
 
 variable "aws_region" {}
 variable "amis" {
@@ -751,6 +751,9 @@ variable "amis" {
       us-east-2 = "ami-0ebc8f6f580a04647" # ubuntu 14.04 LTS
     }
 }
+
+variable "environment" {  }
+
 
 in main.tf file remove below code private nat remove
 //private route
@@ -779,7 +782,7 @@ and rename the eip-nat.tfx (elastic ip rename the file)
 go to terraform.tfvars
 change the acees key and security key
 
-
+environment="Prod"
 
 terraform init 
 terraform plan
@@ -796,7 +799,7 @@ give above line in ec2 under count
 count = "${var.environment == "Prod" ? 3 : 1}"
 
 in main.tf also count change to above count variable type
-in public subnets creation count give likke
+in public subnets && public route table assosiation creation count give likke
 count = 1
 terraform plan 
 -------------------------
