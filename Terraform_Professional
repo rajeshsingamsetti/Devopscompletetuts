@@ -985,15 +985,32 @@ create variables.tf
 #   acl    = "private"
 # }
 
-
-
-
-
-
 after terraform apply 
 
 again u can change in list array any order foreach will handle but count it will through an error
 ** dump the count foreach code lets try on it
+
+---------------------------
+lifecycle
+terraform imports
+terraform cloud using modules
+
+lifecycle
+refurl:
+create_before_destroy 
+prevent_destroy 
+ignore_changes 
+
+resource "aws_instance" "example" {
+  # ...
+
+  lifecycle {
+    prevent_destroy = true
+    //create_before_destroy = true
+  }
+}
+
+
 
 
 
