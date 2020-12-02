@@ -705,7 +705,7 @@ https://github.com/rajeshsingamsetti/terraformfunctions1/tree/master
 
 
 =============================================terraform another functions======
-lookups
+lookups : ref url: https://github.com/rajeshsingamsetti/Devopscompletetuts/tree/main/Terraformsaple
 conditional
 
 null resource and taint usage
@@ -939,9 +939,61 @@ resource "null_resource" "localexec" {
 ============================null file ends ============================================================================================
 
 
+========foreach function====================
+
+it is introtuced in terraform version 12.04
+ref url: * https://github.com/rajeshsingamsetti/Devopscompletetuts/tree/main/Terraformforeach
+https://www.hashicorp.com/blog/hashicorp-terraform-0-12-preview-for-and-for-each
+
+* https://www.bogotobogo.com/DevOps/Terraform/Terraform-Introduction-AWS-loops.php
+
+*** diff between foreach and count
+reurl: https://medium.com/@business_99069/terraform-count-vs-for-each-b7ada2c0b186
+
+** in count if u change the list order in array after first time execution done  it will had some issues
+in count if u change the order it will replace the entire code
+
+to solve the above probem we use foreach
+above url example if u change order of array also nothing will happen foreach will handle
+create main.tf
+
+#This Terraform Code Deploys Basic VPC Infra.
+provider "aws" {
+    access_key = "AKIAQ5WQEB7SAYWSLJZ7"
+    secret_key = "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"
+    region = "us-east-1"
+}
+
+create variables.tf
+
+# variable "buckets" {
+#     type = list(string)
+#     default = ["devopsb13bucket4","devopsb13bucket1", "devopsb13bucket2", "devopsb13bucket3"]
+# }
+
+# locals {
+#   #images = { for v in var.images : v => v }
+#   mybucks = {
+#       for bucket in var.buckets:
+#            bucket => bucket
+#   }
+# }
+
+# resource "aws_s3_bucket" "bucks1" {
+#   count = "${length(var.buckets2)}"
+#   bucket = var.buckets2[count.index]
+#   acl    = "private"
+# }
 
 
 
+
+
+
+after terraform apply 
+
+again u can change in list array any order foreach will handle but count it will through an error
+** dump the count foreach code lets try on it
 
 
 
