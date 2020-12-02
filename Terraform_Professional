@@ -781,7 +781,8 @@ and rename the eip-nat.tfx (elastic ip rename the file)
 
 go to terraform.tfvars
 change the acees key and security key
-
+**note ** - keypair must be exist on our server region otherwise itwill through an error
+*** ex:key_name = "east111" (keyname must exist on our server).
 environment="Prod"
 
 terraform init 
