@@ -1,1 +1,32 @@
 
+in real time
+
+we had 3 stages to create a infrastrcture
+
+1 -->
+git repo + packer.json + *.tf files 
+
+2 -->
+run packer for custom ami
+3 -->
+deploy infra using terraform
+
+
+above stages we don't do in manually for automation purpose we need one tool that tool is jenkins or azue devops
+
+
+before we going jenkins we need to know packer
+ref url:https://www.packer.io/
+
+download packer
+sample code realtime packer :
+ref url: https://github.com/mavrick202/terraformsingleinstance/blob/master/packer.json
+
+***** why we need packers meanes
+to create only an image or ami (it's diff between packer and terraform will create overall infrastrcture)
+image creation means
+
+first ec2 machine will crete after update after stop after it will create one ami (but using this ami packer won't create another ami it will done by terraform)
+
+terraform will use the machine image of created by packer
+
