@@ -20,7 +20,7 @@ ref url:https://www.packer.io/
 
 download packer
 sample code realtime packer :
-ref url: https://github.com/mavrick202/terraformsingleinstance/blob/master/packer.json
+ref url: https://github.com/rajeshsingamsetti/Devopscompletetuts/blob/main/sir-terraform-packer-jenkins/packer.json
 
 ***** why we need packers meanes
 to create only an image or ami (it's diff between packer and terraform will create overall infrastrcture)
