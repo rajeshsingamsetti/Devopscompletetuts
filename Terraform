@@ -54,6 +54,9 @@ download zip file from terraform official site
 after follow the below official document
 https://learn.hashicorp.com/tutorials/terraform/install-cli
 
+cd usr/local/bin
+wget wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+unzip terraform
 to check terraform installed or not in your system u simply enter the below command
 
 terraform version
