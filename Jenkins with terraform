@@ -30,3 +30,6 @@ first ec2 machine will crete after update after stop after it will create one am
 
 terraform will use the machine image of created by packer
 
+
+
+
