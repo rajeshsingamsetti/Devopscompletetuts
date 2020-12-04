@@ -86,6 +86,23 @@ sample packer.json file will be like this
 
 here we need to change the ami number and region & instance type will t2.micro
 
+after adding the access and secreat key we need to follow below procedure
+
+give source ami,instance type:
+"source_ami": "ami-04d29b6f966df1537",
+"instance_type": "t2.micro",
+
+packer validate packer.json (to validate packer.json)
+if u had any errors it will show if u don't have it will show nothing
+
+to build  packer
+
+packer build -var=aws_access_key=AKIAQ5WQEB7SMCSE2CI6 -var=aws_secret_key=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 packer.json
+
+we will see ec2 will create according to packer.json requirememt after it will create ami image and after instance will delete automatically
+
+
+
 
 
 
