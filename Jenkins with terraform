@@ -36,51 +36,50 @@ wget https://releases.hashicorp.com/packer/1.6.5/packer_1.6.5_darwin_amd64.zip
 
 
 sample packer.json file will be like this
-
 {
     "_comment" : "Create a AWS AMI ith AMZ Linux 2018 with Java and Tomcat",
     "variables": {
-      "aws_access_key": "AKIAQ5WQEB7SM6PIJRX6",
-      "aws_secret_key": "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",
+      "aws_access_key": "",
+      "aws_secret_key": "",
       "region": "us-east-1",
-      "source_ami":"ami-04d29b6f966df1537",
-      "instance_type":"t2.micro",
-      "vpc_id": "vpc-0d143ca90e92391ad",
-      "subnet_id": "subnet-07cd6a2096d287466"
+    "source_ami":"ami-04d29b6f966df1537",
+    "instance_type":"t2.micro",
+    "vpc_id": "vpc-0d143ca90e92391ad",
+    "subnet_id": "subnet-07cd6a2096d287466"
     },
     "_comment1" : "packer build -var \"aws_secret_key=foo\" template.json",
     "_comment2" : "packer build -var-file creds.json template.json",
     "builders": [{
-      "access_key": "AKIAQ5WQEB7SM6PIJRX6",
-      "secret_key": "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",
-      "type": "amazon-ebs",
-      "region": "{{user `region`}}",
-      "source_ami": "ami-04d29b6f966df1537",
-      "instance_type": "t2.micro",
-      "ssh_username": "ec2-user",
-      "ami_name": "DevOpsClass-Build-{{isotime | clean_resource_name}}",
-      "vpc_id": "vpc-0d143ca90e92391ad",
-      "subnet_id": "subnet-07cd6a2096d287466",
-      "tags": {
-        "Name": "DevOpsClass-Build-{{isotime | clean_resource_name}}"
-      }
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+       "type": "amazon-ebs",
+    "region": "{{user `region`}}",
+    "source_ami": "ami-04d29b6f966df1537",
+    "instance_type": "t2.micro",
+    "ssh_username": "ec2-user",
+    "ami_name": "DevOpsClass-Build-{{isotime | clean_resource_name}}",
+    "vpc_id": "vpc-0d143ca90e92391ad",
+    "subnet_id": "subnet-07cd6a2096d287466",
+    "tags": {
+      "Name": "DevOpsClass-Build-{{isotime | clean_resource_name}}"
+    }
     }],
+    
     "provisioners": [{
-      "type": "shell",
-      "inline": [
-        "sleep 30",
-        "sudo yum update -y",
-        "sudo yum install httpd -y",
-        "sudo yum install git -y",
-        "sudo git clone https://github.com/mavrick202/webhooktesting.git",
-        "sudo cp webhooktesting/index.html /var/www/html/index.html",
-        "sudo cp webhooktesting/style.css /var/www/html/style.css",
-        "sudo cp webhooktesting/scorekeeper.js /var/www/html/scorekeeper.js",
-        "sudo service httpd start"
-        ]
-    }]
-  }
-
+    "type": "shell",
+    "inline": [
+      "sleep 30",
+      "sudo yum update -y",
+      "sudo yum install httpd -y",
+      "sudo yum install git -y",
+      "sudo git clone https://github.com/mavrick202/webhooktesting.git",
+      "sudo cp webhooktesting/index.html /var/www/html/index.html",
+      "sudo cp webhooktesting/style.css /var/www/html/style.css",
+      "sudo cp webhooktesting/scorekeeper.js /var/www/html/scorekeeper.js",
+      "sudo service httpd start"
+      ]
+  }]
+}
 
 here we need to change the ami number and region & instance type will t2.micro
 
@@ -101,9 +100,142 @@ we will see ec2 will create according to packer.json requirememt after it will c
 
 packer build packer.json
 ** after build successfull ami now we are going to install jenkins
-take one ubuntu 18.04 server
+take one ubuntu 18.04 server launch the instance
 
 Now we are going 
+
+for jenkins we need to install java
+
+sudo su
+cd
+apt-get update -y
+apt search openjdk
+
+we will see the below information
+openjdk-8-jdk/bionic-updates,bionic-security 8u275-b01-0ubuntu1~18.04 amd64
+  OpenJDK Development Kit (JDK)
+
+apt install openjdk-8-jdk -y
+
+jenkins install on ubuntu 
+ref url : https://www.jenkins.io/doc/book/installing/linux/#debianubuntu
+
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+
++ enter Y
+
+service jenkins start
+
+ipadrres:8080 / open in browser
+
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+apt install unzip -y
+
+cd /usr/local/bin/
+wget https://releases.hashicorp.com/terraform/0.14.0/terraform_0.14.0_linux_amd64.zip
+unzip terraform_0.14.0_linux_amd64.zip 
+rm -rf terraform_0.14.0_linux_amd64.zip 
+
+terraform -version
+Terraform v0.14.0
+
+now we are going to install packer
+ref download url:
+
+cd /usr/local/bin/
+wget https://releases.hashicorp.com/packer/1.6.0/packer_1.6.0_linux_amd64.zip
+unzip packer_1.6.0_linux_amd64.zip
+
+rm -rf packer_1.6.5_linux_amd64.zip 
+packer -version
+1.6.0
+
+
+su -jenkins
+check
+terraform 
+packer
+after 
+create one folder
+mkdir .aws
+cd .aws
+vi credentials
+[default]
+aws_access_key_id=AKIAQ5WQEB7SDKPBWCLB
+aws_secret_access_key=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
+
+refurl:
+https://www.packer.io/docs/builders/amazon
+commands are working or not in jenkins user
+
+
+Now weburl jenkins dashbaord
+
+go to manage jenkins
+
+manage plugins --> available plugins --> search for packer + install without restart
+
+dashboard
+new item + itemname + freestyle project + ok
+
+source code git and url is
+https://github.com/rajeshsingamsetti/terraformsingleinstance.git
+its public repo so we don't need any credentails 
+
+Under Build
+execute shell
+
+
+execute 
+#!/bin/bash
+packer version
+packer validate packer.json
+
+if [ $? -eq 0 ]
+
+then
+echo "success add image"
+else 
+echo "validation fail check the code"
+exit 1
+fi
+
+
+
+save it
+
+build it (we will get successs message)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
