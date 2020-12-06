@@ -200,9 +200,12 @@ if [ $? -eq 0 ]
 
 then
 echo "success add image"
-packer build packer.json 2>&1 | sudo tee output.txt
-tail -4 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >  ami.txt
-AMIID=$(ami.txt)
+#packer build packer.json 2>&1 |  tee output.txt
+#tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >  ami.txt
+AMIID=$(<ami.txt)
+echo "variable imagename { default = \"$AMIID\" }" >> variables.tf
+terraform init
+terraform apply --auto-approve
 else 
 echo "validation fail check the code"
 exit 1
@@ -211,11 +214,66 @@ fi
 
 
 save it
+uncomment the main.tf file
+resource "aws_instance" "web-1" {
+}
 
 build it (we will get successs message)
+*note on linux server export the 
+aws_access_key and secreat key don't forget
+
+you will get success message
+
+====================== jenkins pipeline for more userfriendly in packer and terraform===========
+
+dashbaord + new item + pipeline create it
+under pipeline choose pipeline script the sample code is like that
+
+node {
+    stage('Preparation') { // for display purposes
+
+    }
+    stage('Build') {
+        
+    }
+    stage('Results') {
+       
+    }
+}
+
+apply build u will see design of blocks
+
+note : u must install stage view plugins from manage plugin
 
 
 
+sample pipeline code but its not working
+node {
+    stage('clone git repo') { // for display purposes
+        sh "rm -rf terraformsingleinstance"    
+         sh "git clone https://github.com/rajeshsingamsetti/terraformsingleinstance.git"
+         
+        
+    }
+    stage('Perform Packer Build') {
+        dir("terraformsingleinstance"){
+            sh "pwd"
+            sh "packer build packer.json 2>&1 |  tee output.txt"
+            sh "tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' >  ami.txt"
+            sh "AMIID=\$(<ami.txt)"
+            sh "echo \"variable imagename { default = \"$AMIID\" }\" >> variables.tf \""
+            
+        }
+        
+    }
+    stage('Terraform Apply') {
+       dir("terraformsingleinstance"){
+            sh "terraform init"
+            sh "terraform apply --auto-approve"
+           
+       }
+    }
+}
 
 
 
