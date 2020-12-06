@@ -200,6 +200,9 @@ if [ $? -eq 0 ]
 
 then
 echo "success add image"
+packer build packer.json 2>&1 | sudo tee output.txt
+tail -4 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' >  ami.txt
+AMIID=$(ami.txt)
 else 
 echo "validation fail check the code"
 exit 1
