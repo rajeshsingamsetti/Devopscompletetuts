@@ -40,27 +40,27 @@ sample packer.json file will be like this
 {
     "_comment" : "Create a AWS AMI ith AMZ Linux 2018 with Java and Tomcat",
     "variables": {
-      "aws_access_key": "",
-      "aws_secret_key": "",
-      "region": "",
-      "source_ami":"",
-      "instance_type":"",
-      "vpc_id": "",
-      "subnet_id": ""
+      "aws_access_key": "AKIAQ5WQEB7SM6PIJRX6",
+      "aws_secret_key": "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",
+      "region": "us-east-1",
+      "source_ami":"ami-04d29b6f966df1537",
+      "instance_type":"t2.micro",
+      "vpc_id": "vpc-0d143ca90e92391ad",
+      "subnet_id": "subnet-07cd6a2096d287466"
     },
     "_comment1" : "packer build -var \"aws_secret_key=foo\" template.json",
     "_comment2" : "packer build -var-file creds.json template.json",
     "builders": [{
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
+      "access_key": "AKIAQ5WQEB7SM6PIJRX6",
+      "secret_key": "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",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
-      "source_ami": "{{user `source_ami`}}",
-      "instance_type": "{{user `instance_type`}}",
+      "source_ami": "ami-04d29b6f966df1537",
+      "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
       "ami_name": "DevOpsClass-Build-{{isotime | clean_resource_name}}",
-      "vpc_id": "{{user `vpc_id`}}",
-      "subnet_id": "{{user `subnet_id`}}",
+      "vpc_id": "vpc-0d143ca90e92391ad",
+      "subnet_id": "subnet-07cd6a2096d287466",
       "tags": {
         "Name": "DevOpsClass-Build-{{isotime | clean_resource_name}}"
       }
@@ -70,15 +70,13 @@ sample packer.json file will be like this
       "inline": [
         "sleep 30",
         "sudo yum update -y",
-        "sudo yum install nginx -y",
+        "sudo yum install httpd -y",
         "sudo yum install git -y",
         "sudo git clone https://github.com/mavrick202/webhooktesting.git",
-        "sudo rm -rf /usr/share/nginx/html/index.html",
-        "sudo cp webhooktesting/index.html /usr/share/nginx/html/index.html",
-        "sudo cp webhooktesting/style.css /usr/share/nginx/html/style.css",
-        "sudo cp webhooktesting/scorekeeper.js /usr/share/nginx/html/scorekeeper.js",
-        "sudo service nginx start",
-        "sudo chkconfig nginx on"
+        "sudo cp webhooktesting/index.html /var/www/html/index.html",
+        "sudo cp webhooktesting/style.css /var/www/html/style.css",
+        "sudo cp webhooktesting/scorekeeper.js /var/www/html/scorekeeper.js",
+        "sudo service httpd start"
         ]
     }]
   }
@@ -101,7 +99,11 @@ packer build -var=aws_access_key=AKIAQ5WQEB7SMCSE2CI6 -var=aws_secret_key=ld0NCg
 
 we will see ec2 will create according to packer.json requirememt after it will create ami image and after instance will delete automatically
 
+packer build packer.json
+** after build successfull ami now we are going to install jenkins
+take one ubuntu 18.04 server
 
+Now we are going 
 
 
 
