@@ -247,54 +247,60 @@ note : u must install stage view plugins from manage plugin
 
 
 
-sample pipeline code but its not working
+sample pipeline code 
+Scripted Pipeline(NOT ADDED TO REPO):
+=====================================
+BELOW PIPELINE CLONES REPO, CREATE PACKER IMAGE &  DEPLOY TERRAFORM
+-------------------------------------------------------------------
+ 
 node {
-    stage('clone git repo') { // for display purposes
-        sh "rm -rf terraformsingleinstance"    
-         sh "git clone https://github.com/rajeshsingamsetti/terraformsingleinstance.git"
-         
-        
-    }
-    stage('Perform Packer Build') {
-        dir("terraformsingleinstance"){
-            sh "pwd"
-            sh "packer build packer.json 2>&1 |  tee output.txt"
-            sh "tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' >  ami.txt"
-            sh "AMIID=\$(<ami.txt)"
-            sh "echo \"variable imagename { default = \"$AMIID\" }\" >> variables.tf \""
-            
-        }
-        
-    }
-    stage('Terraform Apply') {
-       dir("terraformsingleinstance"){
-            sh "terraform init"
-            sh "terraform apply --auto-approve"
-           
+   stage('Clone Git Repo') {
+       sh "rm -rf terraformsingleinstance"
+       sh "git clone https://github.com/mavrick202/terraformsingleinstance.git"
+       sh "ls -al"
+   }
+   stage('Perform Backer Build') {
+       dir("terraformsingleinstance") {
+       sh "pwd"
+       sh "packer build packer.json 2>&1 | tee output.txt"
+       sh "tail -2 output.txt | head -2 | awk 'match(\$0, /ami-.*/) { print substr(\$0, RSTART, RLENGTH) }' > ami.txt"
+       sh "echo \$(cat ami.txt) > ami.txt";
+       def AMIID=readFile('ami.txt').trim()
+       sh "echo variable \\\"imagename\\\" { default = \\\"$AMIID\\\" } >> variables.tf"
+               
        }
-    }
+       
+   }
+   stage('Terraform Apply') {
+       dir("terraformsingleinstance") {
+       
+           sh "terraform init"
+           sh "terraform apply --auto-approve"
+       }
+       
+   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+===========================================================================================
+BUILD EXECUTE SHELL SCRIPT:
+=======================================
+#!/bin/bash
+packer version
+packer validate packer.json
+if [ $? -eq 0 ]
+then
+echo "Validation Sucessfull.Lets Build The Image."
+packer build packer.json 2>&1 | tee output.txt
+tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }' > ami.txt
+AMIID=$(cat ami.txt)
+echo "variable imagename { default = \"$AMIID\" }" >> variables.tf
+terraform init
+terraform apply --auto-approve
+else
+echo "Validation FAILED. Check the CODE"
+exit 1
+fi
+=========================================
 
 
 
