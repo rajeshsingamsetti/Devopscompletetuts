@@ -373,6 +373,50 @@ now launch 2 ec2 instances one for public another for private
 
 launch instance choose public subnet and create it launch it
 
+now launch another instnce with private subnet (wnatendly choose public ip enable)
+
+if you ping public ip it will ping but if u come to private it won't be ping 
+
+
+Now for private subnets we create one nat gateway
+
+create a nategateway
+choose one public subnet and choose public instance allocate elastic ip: create it
+
+now you can login into ur above attached public instance and ping ur private instance ip it will ping
+
+create one file in public instance
+nano somekey.pem
+copy paste ur pem file(which u choose for private instance)
+chmod 400 somekey.pem
+
+now we r try to login private subnet
+
+ssh -i somekey.pem ec2-user@ipaddressprivate
+after loginto private serverr
+if u ping www.google.com
+it won't ping bcoz it don't have internet access
+
+** now go to nat private routes edit routes + add route
+0.0.0.0 and choose target nat gateway is ur natgateway name
+
+now u ping private instance ping www.google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
