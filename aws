@@ -329,3 +329,59 @@ Vpc transit won’t work.
 ******** ec2-metadata copy key and paste in all key files .
 note : another region and another account same key file will be needed.
 
+============================ aws vpc nat gateway===================================================
+what is nat gateway:
+NAT Gateway, also known as Network Address Translation Gateway, is used to enable instances present in a private subnet to help connect to the internet or AWS services. In addition to this, the gateway makes sure that the internet doesn’t initiate a connection with the instances.
+NAT Gateway service is a fully managed service by Amazon, that doesn’t require any efforts from the administrator.
+
+They don’t support IPV4 traffic. In the case of IPV4 traffic, an egress-only internet gateway needs to be used (which is another service).
+
+A NAT gateway in a device forwards the traffic from instances present in the private subnet to the internet/AWS services, and sends back the response from the server back to the instance. When the traffic moves to the internet, 
+an IPV4 address gets replaced with the NAT’s device address.
+Once the response is obtained, it has to be sent to the instance, and in this case, the NAT device translates the address back to the IPV4 and it is given to the IPV4 address.
+
+There are two kinds of NAT devices which AWS offers- A NAT gateway and a NAT instance. AWS recommends the usage of NAT gateways since it helps provide high availability and a better bandwidth in comparison to NAT instance.
+
+
+ref url: https://www.knowledgehut.com/tutorials/aws/aws-nat-gateway
+
+when vpc is created default route table is created (if u are not created ur route it will use default route)
+
+****note: which subnet is not directlly connected to igw is called private subnet
+
+
+to implement nat we need one vpc create with ip range 192.168.0.0/16
+Note : after created subnets must add public ip allication
+after create 2 public subnets diff region with range on 192.168.1.0/24 && 192.168.2.0/24 
+after create 2 private subnets diff region (is same region diff iprange)with range on 192.168.10.0/24 && 192.168.20.0/24
+
+note : default one route table is created it assigns all your subnets
+crete one internet gateway attach to ur vpc
+
+go to default created mainroute and edit routes add internet gateway 0.0.0.0 choose igw
+
+but here if u observe all subnets means private subnets also connected to igw
+
+now create one route table
+choose your vpc crate after come to subnet assosiation
+choose your private subnets and add it
+
+now ur private subnets or real private subnets
+
+
+now launch 2 ec2 instances one for public another for private
+
+launch instance choose public subnet and create it launch it
+
+
+
+
+
+
+
+
+
+
+
+
+
