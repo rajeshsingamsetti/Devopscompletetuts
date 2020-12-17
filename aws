@@ -403,6 +403,32 @@ it won't ping bcoz it don't have internet access
 now u ping private instance ping www.google.com
 
 
+*** note if u want to private server use internet we must use nat gateway
+
+
+=================== elastic ip==========================================================
+
+if you stop and  start ur instance ur ip will change if u want overcome that u need to use elastic ip(contant allocated ip won't change)
+
+create elastic ip
+assosiate elatic ip to ur running instances and click on assosite
+
+now u reboot ur system and start the instance it will constant ur ip adress it won't change ur ip
+
+elastic means we will change elastic ip from one server another server (dis assosiate and choose another instance assosiate it)
+we will use in elastic ip
+nat gateway
+transit gateway
+public web server
+load balancer
+
+
+
+
+
+
+
+
 
 
 
