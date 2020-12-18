@@ -426,14 +426,10 @@ load balancer
 ============================================================End Points==============================================================
 if u want your access ur service internal and do not access ur services on internet or external then we choose endpoints
 
-create a vpc
-and create 2 subnets 1 is public and 1 is private
-create igw and add to vpc
-create 2 routes one for public route attach one public subnet edit routes 0.0.0.0 intergateway ur internet gateway
+launch one instance and create one user and aws configure
 
-create nat gateway + choose the public subnet + allocate elastic ip + create nat gateway.
+enter access key and secreat key
 
-now launch one instance with private subnet try to login it wont login
 
 
 
