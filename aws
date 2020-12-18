@@ -368,6 +368,7 @@ choose your private subnets and add it
 
 now ur private subnets or real private subnets
 
+create one security group with allow all trafic
 
 now launch 2 ec2 instances one for public another for private
 
@@ -375,7 +376,7 @@ launch instance choose public subnet and create it launch it
 
 now launch another instnce with private subnet (wnatendly choose public ip enable)
 
-if you ping public ip it will ping but if u come to private it won't be ping 
+if you ping public ip it will ping but if u come to private it won't be ping(private server private ip check with it) 
 
 
 Now for private subnets we create one nat gateway
@@ -383,7 +384,7 @@ Now for private subnets we create one nat gateway
 create a nategateway
 choose one public subnet and choose public instance allocate elastic ip: create it
 
-now you can login into ur above attached public instance and ping ur private instance ip it will ping
+now you can login into ur above attached public instance and ping ur private instance privateip it will ping
 
 create one file in public instance
 nano somekey.pem
