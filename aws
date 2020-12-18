@@ -430,8 +430,75 @@ launch one instance and create one user and aws configure
 
 enter access key and secreat key
 
+above procedure for user natgateway puprpose through internet not internal or insidw
 
 
+
+Endpoints
+2 types of endpoints
+
+create a endpoint --> 2type of services
+
+for only dynamodb && s3 only had gateway  remaining all are interface
+
+Interface endpoints
+
+An interface endpoint is an elastic network interface with a private IP address from the IP address range of your subnet. 
+It serves as an entry point for traffic destined to a supported AWS service or a VPC endpoint service. Interface endpoints are powered by AWS PrivateLink.
+
+For information about the AWS services that integrate with AWS PrivateLink, see AWS services that you can use with AWS PrivateLink. 
+You can also view all of the available AWS service names. For more information, see Viewing available AWS service names.
+
+Gateway Load Balancer endpoints
+
+A Gateway Load Balancer endpoint is an elastic network interface with a private IP address from the IP address range of your subnet. Gateway Load Balancer endpoints are powered by AWS PrivateLink. This type of endpoint serves as an entry point to intercept traffic and route it to a service that you've configured using Gateway Load Balancers, for example, for security inspection. You specify a Gateway Load Balancer endpoint as a target for a route in a route table. Gateway Load Balancer endpoints are supported for endpoint services that are configured for Gateway Load Balancers only.
+
+Gateway endpoints
+
+A gateway endpoint is for supported for AWS services only. You specify a gateway endpoint as a route table target for traffic destined to the following AWS services:
+
+Amazon S3
+
+DynamoDB
+
+
+***** practical
+**** for entrypoint s3bucket and vpc shold be in same region
+before assign iam role or configure aws on instances
+
+create one entrypoint + search for s3 + check s3 + choose your vpc  + choose ur route + create entry point
+
+launch that above selected public or private region subnet instance .
+
+after the entrypoint creation id will affect on routes of above subnet u choose in entrypoint
+launch instance 
+
+in ur aws account s3 create or upload files
+
+wget filename u will get that file
+
+upload files
+
+i=0
+[root@ip-10-0-0-30 ~]# while [ $i -lt 3 ]
+> do
+> echo $(date) > file$i
+> aws s3 cp file$i s3://bucketsufit
+> i=$(( $i + 1 ))
+> sleep 1
+> echo "copying file file$i"
+> done
+
+
+interface environment
+
+more focus on session manager:
+for private subnets neeeds to practice
+ref url:
+https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/
+
+
+   
 
 
 
