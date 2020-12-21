@@ -976,6 +976,24 @@ save ami
 you need to learn windows partition also
 
 
+================= indepth volumes and snapshot in ec2=========
+we mostly used in gp2 and provisioned iops here provisioned iops is the high performance iops
+
+gp2 --> min 1 gb max 16tb (we can assign multiple gp2)
+min iops : 100
+max iops : 16000
+
+for 1gb we will get 3iops
+
+iops concept more r & d
+
+provision io1 --> min 4 gib max 16384 gib
+min 100iops max 64000 iops
+
+
+
+
+
 
 
 
