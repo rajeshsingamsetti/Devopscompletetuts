@@ -954,6 +954,26 @@ df -h(it won't visible we need to mount the data)
 mount /dev/xvdf1 /myebsvol/
 now df -h (it's mounted)
 
+mkdir ebsfol
+cd ebsvol
+vi create a file save
+
+now u can stop and start ur instance
+
+if u want save those files after reboot also(if u wont those below step it won't work)
+
+vi /etc/fstab
+
+vi /etc/fstab (in that file write below code)
+/dev/xvdf1  /newebsvolume         ext3   defaults   0    0  (save the file)
+
+save it
+
+
+create a snapshot
+
+save ami
+you need to learn windows partition also
 
 
 
