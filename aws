@@ -822,6 +822,148 @@ ranges (very popular exam question)
 • Spread
 
 ======================================  ec2 ebs volume======================================================================
+Storage types
+Storage are 2 types 1.ebs 2. Instance store 3. Elastic file system
+
+In ebs we need to format the disk and create file system on it.
+But in efs : file store - acess the network ans then mount it and save the files .no need to formating creating a file system
+
+Other storages are 
+S3
+Glacier
+
+Ebs features:
+Persistance or permanent storage
+Ebs volumes will be created but not decreased
+We can have the volume between 1gb to 16tb
+
+Handson : deploy a machine → (note if u want instance store choose m3.medium with 1*4 ssd )-->under add add storage (root size is 8gb ) create one ebs volume with 3gb → launch the instance.
+Go to terminal:
+sudo su && cd
+lsblk (here we can see that all our storage information and it is mounted or not we can see that)
+Note: after creating a instance also we can create a volume and we can attach it also.
+
+But we can’t use it bcoz we format it and we make file system on it and we mountit later only we can use in ebs volumes.
+Now i am going  to create a directory with newebsvolume mkdir newebsvolume
+First i need to format the newly creted volume for this 
+fdisk /dev/xvdf (here xvdf is the name of newly created volume we can find using by lsblk command)
+m after n (for new partition ) after press p after enter 3 times note when u see command u need to type w
+Now if we can see lsblk now our new volume will be created a new partition.
+As of now we converted our raw volume to partition volume for further usuage
+Now we need to create a file system → mkfs.ext3 /dev/xvdf1 (xvdf1 is the name of partition volume)+ente
+Now we are going to mount the volume.
+mount /dev/xvdf1 /newebsvolume/ (here newebsvolume it is our newly created directory) + enter
+Now type df -h (here u can see the space of your instance)
+Now we have to configure our partion volumes in fstab (for permanet storage on restart server no loss info
+vi /etc/fstab (in that file write below code)
+/dev/xvdf1  /newebsvolume         ext3   defaults   0    0  (save the file)
+Go to newebsvolume crete some files 
+Stop and start your server or instance loginto your  console your data will be there)
+***** note: if u r not mention ur partition details on fstab on start the server ur data will be their but it won’t show in under the command of df -h
+Go to ec2 -> volumes → edit volumes → (u can increae the volume size but u can’t decrease)
+Note if  u add extra size to your volumes u have to follow below procedure 
+
+Type growpart /dev/xvdf 1
+→ lsblk (check ur we can see increase partion)
+→ but df -h (still showing previous volume we need to change it)
+→ resize2fs /dev/xvdf1
+→ now check df -h (the size will be increased).
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Different types of volumes:
+Create a instance → under add storage we can see that volume types (general purpose ssd gp2 default root one ) → add tags → launch the instance.
+
+After instance created now i am going to create a volume
+Ec2 → volumes → create a volume 
+Gp2 → 1gb is min and 16tb is the maximum
+
+** note iops is * 3 times os size of volume ex: size is 200 then iops is 600 it’ s for gp2
+For gp2: min iops: 100
+                Max: 10000
+For io1: min 100
+               Max: 32000
+Iops: means input output per second
+** but if u choose volume type ops ssd (io1) we can increase iops not depeding on size of volume 
+
+
+ec2→ create a image → save in snapshot → launch one instance → using snapshot → go to terminal now whatever we had a packages in previous volumes that all will be present in newly created instance.
+
+Efs : elastic file system (it's a multi availability zone)
+It is network based
+We need to pay how much we are using efs.
+
+Aws console → type efs choose it ---> give a name and launch it.
+After go to ec2 -> launch a normal 2 micro instance with security groups nfs with sssh 0.0.0., → go to instance console → now we have to mount efs file system to our instances.
+refurL: https://docs.aws.amazon.com/efs/latest/ug/mounting-fs.html
+sudo yum install -y amazon-efs-utils
+mkdir efs
+sudo mount -t efs -o tls fs-12345678:/ /mnt/efs
+
+Cd efs
+Create a file and sudo touch sample.txt
+
+
+Its a shared file system as that both are in same network as we created a file in one instance it will be reflect to other instance tooooo.
+
+********
+ebs:
+it can be increased max 16tb
+ssd & hdd
+• An EC2 machine loses its root volume (main drive) when it is manually terminated.
+• Unexpected terminations might happen from time to time (AWS would email you)
+• Sometimes, you need a way to store your instance data somewhere
+• An EBS (Elastic Block Store) Volume is a network drive you can attach
+ to your instances while they run
+• It allows your instances to persist data (*** creted volume both are should be in same region)
+Volume can increase but not decrese.(instance store we lost data when reboot server).
+Hands on→
+Ec2 → add storage → add a new volume +choose ebs + size 2gib (everything is default uncheck delete on termination) → add tags -> security group → review → launch.
+
+
+instance store:
+its temporory storage its delete when server reset
+it cannot be increased or decresed
+only ssd types available
+
+********* from madhu volumes start============**********
+create a volume --> type gp2+ size 2 + region 1b + create a volume
+take instance attach above volume launch it
+lsblk
+we can see xvda & xvdb && xvdf
+
+cd /media/ephermal10
+mkdir folder1
+cd folder1
+
+vi create one file save it
+(its a temporory storage)
+
+here xvdf is ebs volume inthe format of raw starcture in intial stage
+now we need to partion
+fdisk /dev/xvdf enter 3 times last type w
+now lsblk 
+now xvdf is partied
+
+now we are going to make a file sysyem
+mkfs.ext4 /dev/xvdf1
+
+now we need to do the mount
+
+mkdir /myebsvol
+df -h(it won't visible we need to mount the data)
+mount /dev/xvdf1 /myebsvol/
+now df -h (it's mounted)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
