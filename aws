@@ -1199,6 +1199,21 @@ copy the name and go to route 53 + paste the name remove last domain name + type
 now go to certificate manager + click on continue it will take 10 min to create.
 
 
+after certificate issued .
+now come to load balancers + click on listners + add listner + choose tls + under security policy choose ur polocy + forward to our load balancer name + default ssl 
+certificate + choose our certificate + create
+
+now under lister delete 80 tcp (we had now tls 443).
+
+now in ur dnshostname on google after few meniutes
+https://dnsname
+
+
+cross zone load balancer:
+it only one region based.
+alwas target groups :same equally load balancer or if u inequality load balancer wants to balance traffic check on cross zone load balancing
+
+
 
 
 
