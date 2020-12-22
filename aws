@@ -1069,6 +1069,29 @@ create record
 
 give name server1 + ur value is public ip + click on create
 
+server1.domainname is called as fqdn(fully qualified domain name)
+--hn-- hostname
+server1.call2ask.in. (using this u will login into ssh connection also)
+
+nslookup server1.call2ask.in
+
+install nginx
+service start nginx
+
+now copy ur domain name and paste in google it willl display ur web server
+
+Note: apart from server1 if want use diff name for same ip we can use cname concept
+
+create a record 
+
+give new recordname and record type choose cname + value paste previous fully qualified domain name(server1.call2ask.in) + create record
+
+now try with server2.call2ask.in (it also browse from same ip).
+
+in real time we can use (outside server ) and internally another domain name
+
+above name called as hostname resolution.
+
 
 
 
