@@ -1103,6 +1103,20 @@ create a record set + give naame + type a ipv4 + value give ur instance private 
 nslookup privatedname name and browse also it will show
 note it won't aceees from outside
 
+we use in real time 
+ansible puppet client nodes access.
+
+cat /etc/hosts(here we will assign hosting names)
+
+route 53c layers - level
+physical layer -1
+datalink layer -2
+network layer - 3
+transport layer - 4. network load balancer
+session layer - 5
+presentation layer -6
+application layer -7 - application load balancer.
+
 
 
 
