@@ -1213,6 +1213,62 @@ cross zone load balancer:
 it only one region based.
 alwas target groups :same equally load balancer or if u inequality load balancer wants to balance traffic check on cross zone load balancing
 
+=========================================== application load balancer===============
+now we are going configure third party certificate tools for that use below website
+we need one dnsname from rout53 from aws
+
+https://csrgenerator.com/
+fill the details
+
+under company name paste dns name + 2048
+
+generate + ******* it will give request key and private key store securely
+
+after comodossistore.com + create account + all orders + active + reissue certificate + click on cname verification tab + paste the first security of ur pasted key
+click on continue + no + continue + 
+download certificate
+
+rooute 53 + create record set + paste the name + cname + value paste it.
+
+after it will issue the certificate (but this small charchable)
+
+application for only web applications
+
+
+launch 3 instances. with nginx custumize
+
+create target groups name + instance + http + create
+like that create 3 target groups.
+now each target groups + bottom target edit + add the instance + add to register + save.
+
+like that other instance too.
+
+now create load balancing
+application + name + vpc + public subnets + next configute settings + give security group + configure routing + target group + target name + next create.
+it will take time
+
+now in certificate manager 
+extract certificate + in that crt files + aws certificate manager + import cerficate + paste the unzip data file domainname.crt data code under certificate body
++ paste private key + certificate chain bundle code paste here + review + import
+
+after loading our load balancer.
+route53 + name domain name + type ipv4 + alias yes + choose ur target + save record.
+
+
+
+after under load balancer + listners + view edit rules + add rule + insert + condition path /movies + forward this to movies.+ save it
+like that u can add paths
+
+add listner change to https + forward to targer group + security policy + ssl certificate import certificate + save.
+
+
+now it will now https.
+
+
+
+
+
+
 
 
 
