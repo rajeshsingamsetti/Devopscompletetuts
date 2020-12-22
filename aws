@@ -990,6 +990,73 @@ iops concept more r & d
 provision io1 --> min 4 gib max 16384 gib
 min 100iops max 64000 iops
 
+but its too costly
+
+launch one instance root mkdir snapshot
+cd snapshot
+create some files
+
+go to volumes create the snapshot
+
+now again go to server 
+create one more directory create some files 
+
+create same volume snapshot2
+
+again go to server
+create new folder place some files
+create one snapshot
+
+
+**** note when ur data lost and trying restoring data take ur latest snapshot and launch it
+
+now go to snapshots (latest snapshots)
+left click create volume + don't decrease the sixe increase if u want + name and value give it.create volume
+
+after go to volumes u will see ur volume click on that volume to attach choose ur instance + click on attach
+
+if u type lsblk in ur instance u will see that
+
+newly added volume xvdf1 
+
+create one filder and mount id
+mkdir restore_volume
+mount /dev/xvdf1  /restore_volume
+
+ls restore_volume
+cp -rf restore_volume/ /
+all the folders of snapshots wll be placed on root
+
+unmount /restore_volume/
+
+
+** this way only backup or restore the data only not os
+after detach ur volume and delete ur data
+if u want os u need to copy the machine from ec2 instance
+
+snapshot life cycle management:
+depends upon time and requirement by using tags we can create snapshots by using this policy
+
+resource type : choose volume .or if u want instance choose instance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
