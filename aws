@@ -1117,6 +1117,99 @@ session layer - 5
 presentation layer -6
 application layer -7 - application load balancer.
 
+================================================== Load balancers ======================================================================================
+
+network load balancer - layer 4 - for all
+application load balancer - layer 7 - it will only specific for http and https
+classic load balancer(old no one r using)
+
+
+we need 3 servers with 3 diff az's
+
+combine 3 servers with one target group
+
+flow
+internet --> route 53 --> network loadbalancer --> target groups --> instances
+
+handson 
+
+
+launch 3 servers with 3 diff az's with nginx
+
+after launching 3 instances.
+
+for understanding purpose login ssh to ever server
+vi usr/share/nginx/html/index.html
+
+change code like server1
+
+same process for another 2 servers also
+
+
+target group --> collection of instances & port number
+
+create a target group
+name + protocol tcp + vpc + port 80 --> create
+after creating below click on targets + edit
+choose any 2 servers + save it
+
+
+create a load balancer --> network --> mynlb + scheme internet-facing + choose vpc and check always public subnets.+ (real time mention ur elastic ipaddress) assign by aws.
+create.
+
+configure roting --> choose ur existing target group + next + create.
+
+now below load balancer it will give very long load balancer name.
+
+to assign dns
+
+route 53.
+create hostedzone.
+paste ur  aws hosted zones name servers godaddy name servers edit paste step by step.
+
+
+route 53:
+create a record set
+name www
+type cname + value ur load balancer dns name.
+
+create. Or alias choose ur loadbalancer create.
+
+wait for status health check will be healthy.
+
+
+first check with load balancer dns name.
+open in multiple tabs check difference.
+
+
+after that try with route 53 dns name.
+
+in target we will saw the status health and unhealth.
+
+
+now we are going to learn ssl & tls certificates.
+
+
+aws will give some cerificates.(its free work only for aws)
+go to certificate manager + provisional certificate + get started + domainname + *.call2ask.in + dns validation + next review + create.
+
+in new tab open 
+copy the name and go to route 53 + paste the name remove last domain name + type cname + value aws certificate manager value + create.
+
+now go to certificate manager + click on continue it will take 10 min to create.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
