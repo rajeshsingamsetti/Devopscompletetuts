@@ -1092,6 +1092,16 @@ in real time we can use (outside server ) and internally another domain name
 
 above name called as hostname resolution.
 
+note**** in route whenver u create a record choose name server and paste nameserver give ip save it . --> create it
+now if another made any changes it won't be conflict
+
+*****
+if u want use internally zone
+created hosted zone  name raj.com + choose private + choose vpc + create
+create a record set + give naame + type a ipv4 + value give ur instance private ip + create
+
+nslookup privatedname name and browse also it will show
+note it won't aceees from outside
 
 
 
