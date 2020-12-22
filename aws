@@ -1039,6 +1039,41 @@ depends upon time and requirement by using tags we can create snapshots by using
 
 resource type : choose volume .or if u want instance choose instance
 
+================== route 53 ======================================
+godaddy registartion
+public dns
+private dns
+sub domains
+
+
+now goto aws route 53 dashboard
+https://console.aws.amazon.com/route53/v2/home#Dashboard
+
+create hostazone + paste ur domain name .(call2ask.in)
+
+after that it will give
+Hosted zone details
+
+now inur godaddy Nameservers click on change button
+now nameserver (paste the aws route 53 name servers 4 )
+
+click on save button
+
+
+go to ec2 launch one instance
+
+after launching ur instance
+
+now go to route53
+create record
+
+give name server1 + ur value is public ip + click on create
+
+
+
+
+
+
 
 
 
