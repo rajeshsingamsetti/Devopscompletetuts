@@ -1418,9 +1418,46 @@ after load increase it will launch new instances.
 if load stop automatically it will stop the instances
 
 
+=========================== video 20 load balancer on private subnets using nat gateway==========================
+
+Note:
+internet + dns + network load balancer + nat gatewat + public subnet + private subnet.
 
 
 
+launch one nat gateway.+ choose one public subnet + allicate ip + create a nat gateway.
+routing + 0.0.0.0/0 (nat gateway + choose ur nat gateway) ok
+
+create a target group . choose tcp
+create a network load balancer + under availability zones choose ur vpc +
+under subnets + choose all public subnets.
++ configure settings + configure routing + existing target group + ur target group name + create.
+
+now launch ubuntu instances with private subnets + with below userdata + 
+#!/bin/bash
+apt update
+apt install software-properties-common -y
+apt-add-repository --yes --update ppa:ansible/ansible
+apt update
+apt install ansible -y
+apt install python-apt -y
+git clone https://github.com/mavrick202/ansibletemplatetesting.git /myrepo
+ansible-playbook /myrepo/playbook.yaml
+
+
++ create + launchit like wise launch 2 private instances.
+
+copy private ip address paste in chrome it will show some design with ur ipaddress.
+
+
+********* in realtime 3 tier application will be in below way
+
+load balancer + web server + app server + database.
+  
+  |.            |
+  |             |
+  Public.      private.       private.  private
+  
 
 
 
