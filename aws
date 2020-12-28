@@ -1264,6 +1264,54 @@ add listner change to https + forward to targer group + security policy + ssl ce
 
 now it will now https.
 
+============================== auto scaliing ==========
+Auto scaling having 2 types:
+Horizontal scaling
+It create automatically new servers when it load rises 
+Scalein: reducing
+Scaleout: increasing server
+Vertical scaling:
+When it reach the limit we need to stop again we need to run in real time we don’t use the vertical we use only horizontal.
+
+In real-life, the load on your websites and application can change
+• In the cloud, you can create and get rid of servers very quickly
+• The goal of an Auto Scaling Group (ASG) is to:
+• Scale out (add EC2 instances) to match an increased load
+• Scale in (remove EC2 instances) to match a decreased load
+• Ensure we have a minimum and a maximum number of machines running • Automatically Register new instances to a load balancer
+
+Hands on : launch template tells us how do we create ec2 instances
+Before we need one application load balancer with run on dns we need to get an 503 error
+Go and ec2 ---> ec2 → autoscaling → auto scaling groups click on that → click on auto scaling group → under field of auto scaling group name  give name myasg name→ under launch template click on create launch template → one page will open → create a template name give a name → description give what u want .
+→ now under amazon machine image ami → you can choose amazon linux2 ami → instance type is t2.micro
+→ keypair choose your key .--> networking platform default vpc → security groups choose our instances security group → advanced userdata:
+#!/bin/bash
+sudo su
+yum update -y
+yum install -y httpd.x86_64
+systemctl start httpd.service  
+systemctl enable httpd.service  
+cd /var/www/html
+echo "<html><h1>This is WebServer 01</h1></html>" > index.html
+
+Create launch template → click on view launch template .
+
+Now go to asg console .--> create auto scaling group name  give name → under launch template  choose ur previous template what we setup .
+
+Click on next -->under network choose click all subnets → if u want purchase then go with purchase + select all subnets whatever present→ click on next → now we are at under load balancing click on check enable load balancing → choose application load balancer → choose your target group if it exists choose ur target group or else create one new target group → 
+Choose that group → in health checks elastic load balancer → click on next → in next  page min capacity is one and maximum capacity in my case i am choosing 5 → scalling polices as of now none → click on next → 
+Notifications we don’t need click on next → add tags → click on next → review it click on create new auto scaling group  .
+
+It will show successfully created message
+
+Now in our auto scaling group dashboard we can see that instances is 0 and status updating capacity .
+Click on refresh
+Check asg under group details we can see that all information 
+In under below we can see that instance management click on that we can see that one instance is created go to ec2 and check if u want.
+That instances will display on under target groups section also with status of healthy
+In autoscalling groups if you increase the desired capacity it will automatically crate new instance
+
+
 
 
 
