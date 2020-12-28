@@ -1409,6 +1409,13 @@ ip address will change.
 
 
 
+now login into all servers and make the load  stress.
+stress --cpu 8 --io 4 --vm-bytes 128M --timeout 30m
+run this command in all servers it will make pressure on all servers.
+
+after load increase it will launch new instances.
+
+if load stop automatically it will stop the instances
 
 
 
