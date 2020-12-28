@@ -1483,7 +1483,10 @@ uses.    -- for admin & developers contain access key and secreat key
 Roles -- for aws services (to interact one aws service to another service from one account to another account)
 
 Polices -- permissions in json format.
-
+      types 3:
+      aws managed polocies
+      cutomer managed policies
+      inline policies. (only for users and groups the polocy will exist but it won't display)
 
 create 2 users with programatic + aws console access + with cutom password.
 
@@ -1501,6 +1504,45 @@ u will get error like u donlt have an permission
 
 to attach policy we don't use default policies we use custom polocies.
 
+aws ec2 describe instances --output table
+aws ec2 describe instances --output text
+
+now we have 2 servers note: Owener testuser1 (its a tag)
+that 2 servers can access 2 diff test users note: users can stop/start and reboot only don't had a chance to terminate.
+
+
+by using tags we can write the policies.
+create a polocy json polocy.
+
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":"ec2:Describe*",
+         "Resource":"*"
+      },
+      {
+         "Effect":"Allow",
+         "Action":[
+            "ec2:StartInstances",
+            "ec2:StopInstances",
+            "ec2:RebootInstances"
+         ],
+         "Resource":[
+            "arn:aws:ec2:us-east-1:accountnumber:instance/*"
+         ],
+         "Condition":{
+            "StringEquals":{
+               "ec2:ResourceTag/Owner":"Testuser1". // here we can add tags 
+            }
+         }
+      }
+   ]
+}
+
+
+after creating polocies attach that polocies to users
 
 
 
