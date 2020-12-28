@@ -1487,7 +1487,8 @@ Polices -- permissions in json format.
       aws managed polocies
       cutomer managed policies
       inline policies. (only for users and groups the polocy will exist but it won't display)
-
+   reference i am polocy simulator.
+   
 create 2 users with programatic + aws console access + with cutom password.
 
 
