@@ -1311,6 +1311,67 @@ In under below we can see that instance management click on that we can see that
 That instances will display on under target groups section also with status of healthy
 In autoscalling groups if you increase the desired capacity it will automatically crate new instance
 
+from madhu: auto scalling(unpredictable loads)
+autoscalling not used for databases it used for web & app servers bcoz of static content.
+
+internet + route53 + network load balancer -->  web server1 + webserver2.
+types of scalling:
+vertical scalling : upgrading servers ( we need to stop/shutdown and update servers) for live servers we don't use in vertical scalling.testing environment we can use
+
+Horizantal scalling : same server adding multiple times.not upgrading.(its costly)
+
+launch ubuntu 16.04 instance .
+login to server
+update and apt install nginx stress git -y
+service start nginx
+systemctl enable nginx
+(chkconfig nginx on)
+
+after come to ec2 dashboard --> left click --> create image --> img name + description --> create image.
+
+it will be there on under ami's
+
++
+create a target group --> giva name + check instance + protocol is "tcp" + port 80 + choose ur vpc. --> create.
+
+after creating target group --> go and edit it --> choose edit attributes change 300 to 60 seconds. + save.
+
+NOW "create a load balancer"
+choose network load balancer + give name + choose vpc + choose or check all public subnets + existing target group +choose u created target group +
+review + create.
+
+" now click on side menu launch configuration "
+create + choose u r own ami starting what we created + select + next + give name lc1 + monitoring enable check + userdata give some script (note we will give wron)
+aboove we given wrong or we need to update userdata later.
++ storage + review and launch.
+
+
+go to side menu.
+crete a autoscalling group + choose launch configuration + choose our launch configuration name is lc1 + next + name give autoscale name + group size (when u start 
+how many instances u will start) i will choose 1 + choose ur vpc + choose ur subnets + advances details click on it.
++ check receive traffic from one more loadbalancer + target groups choose ur target group + helath check type "elb" it will monitor ur instance + grace period 120
+seconds + next + check on use scalling polices to adjust the capacity of group .
+scale between 1 to 3 + now click on scale the auto scalling group using simple polocy + now it will show increase the group size and decrease the group size
+
+now in increase group size + add take action 2 (click on new alaram) unheck the notifications + whenevr maximum utilization of cpu >= 50% for least at 1 periods of 1 min
+create alaram.
++ when 50 + add step + cpu utilization <= 75 add 1 instances + instances need 60.
+
+now decrese alaram:
+create alarm unheck the notifications + <= 40 .
+take action remove + 2(instances) when 40  
+
+review create + tags + create .
+
+now minium instances will create on ur instances dashboard when autoscalling is created.
+
+
+
+
+
+
+
+
 
 
 
