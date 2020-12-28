@@ -1420,7 +1420,7 @@ if load stop automatically it will stop the instances
 
 =========================== video 20 load balancer on private subnets using nat gateway==========================
 
-Note:
+Note: load balancer must be in public subnets
 internet + dns + network load balancer + nat gatewat + public subnet + private subnet.
 
 
@@ -1459,9 +1459,19 @@ load balancer + web server + app server + database.
   Public.      private.       private.  private
   
 
+load balancer : copy the dns name paste in google
+it will access in internet eventhough it will in private instances
+
+nslookup dnsname
+
+note : public ip will chaneg if u don't want to change u have to use elastic ip while u create loadbalancer + choosing subnets choose elastic ip 
 
 
 
+
+note : when route53 if u use ip it will change if u use elastic ip it won;t change i.e we usinhg dns name
+
+* internal load balancer research and implement it.
 
 
 
