@@ -1477,6 +1477,30 @@ note : when route53 if u use ip it will change if u use elastic ip it won;t chan
 
 ===================================================IAM Identity & Access Management======================================
 
+groups.  -- for admin & developers contain id and password
+uses.    -- for admin & developers contain access key and secreat key
+
+Roles -- for aws services (to interact one aws service to another service from one account to another account)
+
+Polices -- permissions in json format.
+
+
+create 2 users with programatic + aws console access + with cutom password.
+
+
+if u want aceess aws on linux u neeed aws cli
+for that u need to install aws cli
+
+aws configure
+accesss key + secreat key + region + json.
+
+cat ./aws/credentials ( u will get ur aws details)
+
+aws ec2 describe instances
+u will get error like u donlt have an permission
+
+to attach policy we don't use default policies we use custom polocies.
+
 
 
 
