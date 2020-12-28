@@ -1365,6 +1365,50 @@ review create + tags + create .
 
 now minium instances will create on ur instances dashboard when autoscalling is created.
 
+after go to autoscalling groups + edit details + under termination policies remove default select newest instances + save.
+
+go to route 53 + choose our hosted zone domain name + type ipv4 address + target choose ur target group name + save record.
+
+come to load balancer copy the dns name and paste in chrome .(it won't append ur userdata bcoz we given wrong to overcome that)
+#!/bin/bash
+apt update
+apt install software-properties-common -y
+apt-add-repository --yes --update ppa:ansible/ansible
+apt update
+apt install ansible -y
+apt install python-apt -y
+git clone https://github.com/mavrick202/ansibletemplatetesting.git /myrepo
+ansible-playbook /myrepo/playbook.yaml
+
+
+
+go to launch configuration + select our lc1 + copy to launch template + give name lc2+ launch
+after edit lc2 + modify + advance + userdata copy the above userdata. + create a launch template.
+
+create a launch configuration + our ami + name lc1 update + userdata paste ur userdata + review and launch.
+
+come auto scalling group + right click edit + choose ur updated launch configuration lc1update + save 
+
+come to ec2 instance dashboard .
+terminate previously created instances.
+now it will create new instance using new launch configuration.
+
+we will observe in autoscalling.
+instance auto update on target group also.
+
+to obersve autoscalinng .
+go to windows terminal
+while true
+do
+curl -SL http://www.domainname.com/ /grep -i 'IP A'
+sleep 2
+done
+
+
+ip address will change.
+
+
+
 
 
 
