@@ -1546,6 +1546,30 @@ create a polocy json polocy.
 after creating polocies attach that polocies to users
 
 
+=============== aws s3=============
+s3 is not global (it will list the all regions buckets true global is iam)
+
+s3 availability(monthly uptime percentage is 99.9%)
+
+
+s3 durability(if a placed in s3 how mush it safe percentage is 99.9999999999%)
+how its possible
+upload every file will be save in 3 az's (>3) will see on while file uploading.(apart from 1zoneIA) everything will be store on 3 az's)
+
+will see on duration also.
+**** max storage is s3 one file is 5tb.
+
+s3 billing (file can access 3types of bills it considered).
+
+
+*** s3 propertoes::
+versioning:(it's not a complete if versioning show also if delete the data it will lost)
+if unfortunately file will deleted its like small backup type.(we can overwrite or delete)
+without versioning if u delete a file we can't retrive.
+
+static website hosting:
+ur bucket will convert as a static website.
+
 
 
 
