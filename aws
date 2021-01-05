@@ -1575,14 +1575,91 @@ unblock public access.
 choose all files and make public
 
 if u want like domain name.
+note ******** if u use domain name u must ur bucket name also same.
 cretate cucket
 rajesh.com
 use static web hosting (upload all files ) make it public
 choose ur index document + save it
+note :make it all public.
 route53:
 create a record set name: rajesh.com
 type : a-ipv4 address
 alias target (check it)
+choose ur s3 url name save it.
+
+if u want www also
+crate a bucket.
+www.rajesh.com
+make public
+under management tab + choose properties + static website + check on redirect request + under target bucket or domain name give ur exist bucket/domain name.
+and http type + save
+route53:
+create a record set name: www.rajesh.com
+type : a-ipv4 address
+alias target (check it)
+choose ur s3 url name save it.
+
+note : it will used for simple web application.
+
+under properties will see server access log.
+enable
+create a bucket to store logs (by default it won't store logs to store logs)+ permission + access control list + s3 log delievery (chech list + white + save).
+
+choose bucket of logs
+target prefix choose rajesh/ + save
+
+every log file it will store but it will charge.
+
+object level logging also u enable
+
+*** cloud trail :
+who are using ur aws acoount it will give u the total information.
+
+encryption:
+aes-256: it will encrypt the data.
+aws-kms - aws will give the key to protect data
+
+object lock:(u must do on creation time of bucket) immutable
+only allow permission for file uploading not for deleting files
+
+under advanced of creating bucket:
+enable versioning.
+enable object lock.
+
+transfer accelartion:
+while uploading u want more speed of file uploading.
+they will provide one api url;
+we are using in our application.
+
+Events:
+
+to perform some operation we are using events,
+
+requester pays:
+
+who are going to download they need to pay the money to aws.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
