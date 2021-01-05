@@ -1567,8 +1567,22 @@ versioning:(it's not a complete if versioning show also if delete the data it wi
 if unfortunately file will deleted its like small backup type.(we can overwrite or delete)
 without versioning if u delete a file we can't retrive.
 
-static website hosting:
+static website hosting:(
 ur bucket will convert as a static website.
+
+choose ur index document
+unblock public access.
+choose all files and make public
+
+if u want like domain name.
+cretate cucket
+rajesh.com
+use static web hosting (upload all files ) make it public
+choose ur index document + save it
+route53:
+create a record set name: rajesh.com
+type : a-ipv4 address
+alias target (check it)
 
 
 
