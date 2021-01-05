@@ -1720,6 +1720,15 @@ from command line if u want to delete multiple buckets
 aws s3 rm s3://bucket name
 
 
+s3 GLACIER:
+
+chep storage
+s3 pricing
+
+it contain very old data
+
+
+
 
 
 
