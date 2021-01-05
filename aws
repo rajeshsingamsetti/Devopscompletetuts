@@ -1639,6 +1639,110 @@ requester pays:
 
 who are going to download they need to pay the money to aws.
 
+permissions & management:
+
+by default block all public access will enable(most of time we don;t give public access)
+accees control list (old no one are using)
+
+bucket polocy:
+we can allow specific ip.
+
+{
+  "Version": "2012-10-17",
+  "Id": "S3PolicyId1",
+  "Statement": [
+    {
+      "Sid": "IPAllow",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+	       "arn:aws:s3:::DOC-EXAMPLE-BUCKET",
+         "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*"
+      ],
+      "Condition": {
+	 "NotIpAddress": {"aws:SourceIp": "54.240.143.0/24"}
+      }
+    }
+  ]
+}
+
+ref url : https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html
+
+polocy generator:
+https://awspolicygen.s3.amazonaws.com/policygen.html
+
+
+need to learn bucket polocies for interview process
+need to practise more aws iam and role in polocies
+
+by using iam bucket polocy we can manage
+
+
+CORS:
+CROSS ORIGIN RESOURCE SHARING.
+different application domain names access to ur bucket
+we don't use in real time rarely
+
+
+MANAGEMENT:
+
+
+LIFECLYCLE: old data we can transistion from one position to another position
+add lifeclycle + name + apply to all objects + next + current version + object creation (standard 1a after 30 days) + after transistion to glacier 60 days+ next expire
+3650 days + next + save
+now it will create one life cycle
+
+it won't revert back to stage.
+if its go to glacier it will dificult to retrive data.
+
+REPLICATION:
+
+data will shift from across multiple regions (same region also)
+inside bucket
+add versioning + same account or diff account + choose one zone + next + create a new iam role + next + save.
+
+if u upload any file into one bucket it will be also move to another region bucket.
+
+for log files will use replication.
+
+metrics:
+who are access the files
+
+Inventory:
+what type of files are creating it will give report monthy or weekly
+
+
+ACCESS POINTS:
+ITS A NEW SERVICE DO R&D
+
+from command line if u want to delete multiple buckets 
+aws s3 rm s3://bucket name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
