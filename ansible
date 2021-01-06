@@ -1,1 +1,88 @@
 
+ansible is an configure management tool.
+
+linux:
+chef
+puppet 
+ansible
+
+windows:
+sccm
+powershell
+dsc
+
+
+ansible vs puppet.
+aansible is buyed from redhat
+its an agent less work through the ssh opensource free not complex
+it pushes the configuration.
+
+
+puppet:
+its an agent based works on agent
+agent push the configuration.
+
+ansible install:
+
+deploy 2 machines(ubuntu)
+ansible client
+ansible child/node
+
+ansible needs python
+
+login into client server.
+
+sudo su -
+apt update
+install python3
+docs.ansible.com
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu
+
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible
+
+
+after ansible install on
+
+ssh-keygen (enter 3 times)
+
+login in into the node
+
+sudo su -
+ssh-keygen (enter 3 times)
+rm -rf .ssh/id_rsa*
+
+vi authorized_keys
+
+paste the public key of client of anible ssh keygen
+
+now go to client of ansible and type
+sudo su -
+ssh -i .ssh/id_rsa root@ip-privateipofnode
+
+it will login into node
+
+after go to ansible node server and take the image of that server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
