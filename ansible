@@ -66,6 +66,101 @@ it will login into node
 
 after go to ansible node server and take the image of that server
 
+my ami choose ur ami again launch 2 instances
+
+now in client
+
+under root
+vi ansible_hosts
+[all_Servers]
+private ipaddressclient
+private ipadddrnode1
+private ipadddrnode2
+private ipadddrnode3
+
+
+save it
+
+inverntory file  u put whereever u want
+vi /etc/enable/ansible.cfg (search for host_key_checking = False) uncomment this one + save it(without this one it will ask yes before login server everytime)
+
+ansible -i ansible_hosts -m ping all
+
+now ur controller will come red
+to overcome that go to vi .ssh/authorized-keys (paste ur public key here)
+now again try 
+ansible -i ansible_hosts -m ping all
+
+now all will come green
+
+
+*** above process is password less authentication.
+
+
+ansible ad-hoc commands
+ansible playbooks
+
+[all_Servers]
+ip-10-1-1-111.ec2.internal
+ip-10-1-1-158.ec2.internal
+ip-10-1-1-244.ec2.internal
+ip-10-1-1-216.ec2.internal
+
+[docker_master]
+ip-10-1-1-158.ec2.internal
+
+[docker_nodes]
+ip-10-1-1-244.ec2.internal
+ip-10-1-1-216.ec2.internal
+
+
+ad-hoc commands (nothing but simple commands to run)
+ansible -i ansible_hosts all -m shell -a "cat /etc/passwd" or
+ansible -i ansible_hosts all -m shell -a "cat /etc/passwd" | grep -i "ubuntu"
+
+//installing docker from ansible adhoc commands
+ansible -i ansible_hosts ip-10.2.34.4.ec2.internal -m shell \ 
+-a 'curl https://get.docker.com | bash"
+
+ansible -i ansible_hosts docker_master -m shell -a 'docker swarm init'
+
+TOKEN=$(ansible -i ansible_hosts docker_master -m shell -a 'docker swarm join-token worker -q' | tail -1)
+
+#ansible -i ansible_hosts docker_nodes -m shell -a 'curl https://get.docker.com | bash'
+
+MASTER_PVIP=$(ansible -i ansible_hosts ip-10-1-1-158.ec2.internal -m shell -a 'curl -sL http://169.254.169.254/latest/meta-data/local-ipv4' | tail -1)
+
+ansible -i ansible_hosts docker_nodes -m shell -a "docker swarm join --token $TOKEN $MASTER_PVIP:2377"
+
+
+-------------------------------Ansible-AdHoc-Commands-----------
+ansible -i hosts all -m ping
+ansible -i hosts all -m ping -f 1
+ansible -i hosts all -m command -a hostname
+ansible -i hosts all -m command -a uptime
+ansible -i hosts all -m command -a free
+ansible -i hosts all -m command -a df -h
+ansible app -s -a "yum install -y docker-engine"
+ansible -i hosts all  -a "cat /etc/passwd"
+ansible -i hosts servers:app  -a free --limit machine2
+ ansible -i hosts all -a uptime --limit servers
+ansible -i hosts prod -a free (clildren as app & servers)
+ansible -i hosts 'servers:!app' -a free
+ansible -i hosts 'sertp' -a free
+ansible -i hosts servers[0] -a uptime
+ansible -i hosts servers[0:2] -a uptime
+ansible -i hosts servers[2:] -a uptime
+ansible -i hosts  servers -m user -a "user=testuser password=$1$pGP3ICXv$6PEDQI/N1RgLzVr/l00YY0"
+ansible app -s -m group -a "name=admin state=present"
+ansible app -s -m user -a "name=devops group=admin createhome=yes"
+ansible app -m copy -a "src=/vagrant/test.txt dest=/tmp/test.txt"
+
+-------------------------------------------------------------
+
+
+it will give all servers passwd
+
+
 
 
 
