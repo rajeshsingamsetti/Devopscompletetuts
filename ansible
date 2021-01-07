@@ -160,6 +160,32 @@ ansible app -m copy -a "src=/vagrant/test.txt dest=/tmp/test.txt"
 
 it will give all servers passwd
 
+1. Download the Docker image from hub.docker.com
+docker pull sreeharshav/ubuntu16:withssh2.0_V2
+docker pull sreeharshav/ubuntu16:ansible2.75_V2
+2. Create a new network as below:
+docker network create --subnet 172.20.0.0/16 --gateway 172.20.0.254 ansible_nw
+3.Create three machines as below using the above network.
+curl https://get.docker.com | bash
+
+docker network create --subnet 172.20.0.0/16 --gateway 172.20.0.254 ansible_nw
+docker run --rm -dit --name controller --hostname controller --network ansible_nw sreeharshav/ubuntu16:ansible2.75_V2
+docker run --rm -dit --name web1 --hostname web1 -p 8000:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name web2 --hostname web2 -p 8001:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name web3 --hostname web3 -p 8002:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name app1 --hostname app1 -p 9000:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name app2 --hostname app2 -p 9001:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name app3 --hostname app3 -p 9002:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name db1 --hostname db1 -p 9003:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name db2 --hostname db2 -p 9004:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name db3 --hostname db3 -p 9005:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+docker run --rm -dit --name db4 --hostname db4 -p 9006:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+
+
+regular expressions:
+ansible -i hosts 'web:app:!db' -m ping
+
+
 
 
 
