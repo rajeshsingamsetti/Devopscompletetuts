@@ -185,6 +185,86 @@ docker run --rm -dit --name db4 --hostname db4 -p 9006:80 --network ansible_nw s
 regular expressions:
 ansible -i hosts 'web:app:!db' -m ping
 
+ansible play book
+launch ubuntu instances insted of multiple servers we will use docker multiple containers
+    1  sudo apt update -y
+    2  sudo apt install software-properties-common
+    3  sudo apt-add-repository --yes --update ppa:ansible/ansible
+    4  sudo apt install ansible
+    5  ansible -version
+    6  ansible --version
+    7  clear
+    8  curl -sL https://get.docker.com | bash
+    9  docker
+   10  curl https://get.docker.com | bash
+   11  docker network create --subnet 172.20.0.0/16 --gateway 172.20.0.254 ansible_nw
+   12  docker run --rm -dit --name controller --hostname controller --network ansible_nw sreeharshav/ubuntu16:ansible2.75_V2
+   13  docker run --rm -dit --name web1 --hostname web1 -p 8000:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+   14  docker run --rm -dit --name web2 --hostname web2 -p 8001:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+
+docker ps
+
+docker exec -it controller bash
+
+open two terminals one is for controller one is for ansible
+
+cat hosts
+ansible -i hosts 'web:app:!db' -m ping
+ansible -i hosts web1 -m setup (it will give the total info about that container)
+
+install nginx
+ansible -i hosts web -m shell -a "apt update && apt install nginx -y && service nginx start"
+
+docker stop web1 web2 
+docker run --rm -dit --name web1 --hostname web1 -p 8000:80 --network ansible_nw sreeharshav/ubuntu16:withssh2.0_V2
+
+so particular step by step by undestanding purpose we are using playbooks
+
+---
+  - name: playbook for installing nginx
+    hosts: web
+    gather_facts: no
+    tasks:
+      - name: perform apt update
+        shell: apt update 
+
+      - name: install nginx
+        shell: apt install nginx -y
+
+      - name: start nginx service
+        shell: service nginx start
+
+  - name:  installing unzip
+    hosts: web
+    gather_facts: no
+    tasks:
+      - name: perform apt update
+        shell: apt update 
+
+      - name: install unzip
+        shell: apt install unzip -y
+
+create a file vi myplay.yml
+paste the above content
+
+ansible-playbook -i hosts myplay.yml --syntax-check
+ansible-playbook -i hosts myplay.yml --check
+ansible-playbook -i hosts myplay.yml 
+
+
+ctrl +c 
+docker exec -it web1 unzip
+check the info of unzip it will unzipping or not
+
+
+
+
+
+
+
+
+   
+   
 
 
 
