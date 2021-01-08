@@ -302,8 +302,212 @@ git clone https://github.com/mavrick202/dockertest1.git
 now go to browser type public ip with port no of 8000
 publicip:8000/
 
-tags concept
+--------------------------------NGINX Install Using Client Local Nginx Folder--------------------------
 
+  - name: Play for Install Nginx on WebServers
+    hosts: web
+    gather_facts: no
+    tasks:
+       - name: Run Apt Update
+         shell: apt update
+
+       - name: Clone Git Repo
+         shell: cd /tmp && git clone https://github.com/mavrick202/dockertest1.git
+
+       - name: Install Nginx Server
+         apt: >
+           name=nginx
+           state=present
+       
+       - name: Copy the files to index destination folder.
+         copy: >
+            src=/tmp/dockertest1/index.html
+            dest=/var/www/html/index.nginx-debian.html
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+       
+       - name: Copy the style files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/style.css
+            dest=/var/www/html/style.css
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+       
+       - name: Copy the javascript files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/scorekeeper.js
+            dest=/var/www/html/scorekeeper.js
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+       
+       - name: restart nginx
+         command: service nginx restart
+       
+       - name: Delete Git Repo
+         shell: rm -rf /tmp/dockertest1
+         
+
+
+---- handlers (if any changes made then only we need to restart the server means we need to use handlers)
+
+---
+  - name: Play for Install Nginx on WebServers
+    hosts: web
+    ignore_errors: true
+    gather_facts: no
+    tags:
+      nginx
+    tasks:
+       - name: Run Apt Update
+         shell: apt update
+         tags:
+           - update
+
+       - name: Clone Git Repo
+         shell: cd /tmp && git clone https://github.com/mavrick202/dockertest1.git
+         tags:
+           - git
+
+       - name: Install Nginx Server
+         apt: >
+           name=nginx
+           state=present
+         tags:
+             install
+
+       - name: Copy the files to index destination folder.
+         copy: >
+            src=/tmp/dockertest1/index.html
+            dest=/var/www/html/index.nginx-debian.html
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         tags:
+           - index
+         notify:
+            - restart nginx
+
+       - name: Copy the style files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/style.css
+            dest=/var/www/html/style.css
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         tags:
+           - style
+         notify:
+            - restart nginx
+
+       - name: Copy the javascript files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/scorekeeper.js
+            dest=/var/www/html/scorekeeper.js
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         tags:
+           - index
+         notify:
+            - restart nginx
+
+       - name: Delete Git Repo from tmp
+         shell: rm -rf /tmp/dockertest1
+         tags:
+           - delete
+    handlers:
+       - name: restart nginx
+         command: service nginx restart
+         
+         
+  -------------------------------------------------PLAYBOOK-WITH-TAGS-HANDLER-VARIABLES_REGISTER---------
+- name: Play for Install Nginx on WebServers
+  hosts: web
+  gather_facts: no
+  tasks:
+       - name: Run Apt Update
+         shell: apt update
+
+       - name: Check OS Version
+         shell: cat /etc/lsb-release
+         register: os_version
+         tags:
+           - os
+
+       - debug:
+           var: os_version['stdout_lines'][1]
+         tags:
+           - os
+
+       - name: Clone Git Repo
+         shell: cd /tmp && git clone https://github.com/mavrick202/dockertest1.git
+
+       - name: Install Nginx Server
+         apt: >
+           name=nginx
+           state=present
+
+       - name: Copy the files to index destination folder.
+         copy: >
+            src=/tmp/dockertest1/index.html
+            dest=/var/www/html/index.nginx-debian.html
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         notify:
+          - restart nginx
+         tags:
+           - index
+       - name: Copy the style files to  destination folder.
+         notify:
+          - restart nginx
+         copy: >
+            src=/tmp/dockertest1/style.css
+            dest=/var/www/html/style.css
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         tags:
+           - style
+
+       - name: Copy the javascript files to  destination folder.
+         notify:
+          - restart nginx
+         copy: >
+            src=/tmp/dockertest1/scorekeeper.js
+            dest=/var/www/html/scorekeeper.js
+            remote_src=yes
+            owner=root
+            group=root
+            mode=0644
+         tags:
+           - js
+
+       - name: Delete Git Repo
+         shell: rm -rf /tmp/dockertest1
+
+  handlers:
+    - name: restart nginx
+      command: service nginx restart       
+
+
+
+debug is used for the to show message outside.
+
+
+*** tags running 
+ansible-playbook -i hosts myplay.yml --check --tags os,index
 
 
 
