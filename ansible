@@ -509,6 +509,9 @@ debug is used for the to show message outside.
 *** tags running 
 ansible-playbook -i hosts myplay.yml --check --tags os,index
 
+                                                                        conditions && loops:
+
+
 
 
 
