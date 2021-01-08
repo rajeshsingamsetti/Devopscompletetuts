@@ -248,7 +248,7 @@ create a file vi myplay.yml
 paste the above content
 
 ansible-playbook -i hosts myplay.yml --syntax-check
-ansible-playbook -i hosts myplay.yml --check
+ansible-playbook -i hosts myplay.yml -vvv
 ansible-playbook -i hosts myplay.yml 
 
 
@@ -256,9 +256,51 @@ ctrl +c
 docker exec -it web1 unzip
 check the info of unzip it will unzipping or not
 
+---
+  - name: Play for Install Nginx on WebServers
+    hosts: web
+    gather_facts: no
+    tasks:
+       - name: Run Apt Update
+         shell: apt update
+
+       - name: Install Nginx Server
+         apt: >
+           name=nginx
+           state=present
+       - name: Copy the files to index destination folder.
+         copy: >
+            src=/tmp/dockertest1/index.html
+            dest=/var/www/html/index.nginx-debian.html
+            owner=root
+            group=root
+            mode=0644
+       - name: Copy the style files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/style.css
+            dest=/var/www/html/style.css
+            owner=root
+            group=root
+            mode=0644
+       - name: Copy the javascript files to  destination folder.
+         copy: >
+            src=/tmp/dockertest1/scorekeeper.js
+            dest=/var/www/html/scorekeeper.js
+            owner=root
+            group=root
+            mode=0644
+       - name: restart nginx
+         command: service nginx restart
 
 
+docker exec -it controller bash
+ls /tmp/
+cd /tmp
+git clone https://github.com/mavrick202/dockertest1.git
 
+
+now go to browser type public ip with port no of 8000
+publicip:8000/
 
 
 
