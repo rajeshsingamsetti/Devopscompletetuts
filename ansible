@@ -658,6 +658,18 @@ ansible roles:
 preconfigured roles:
 we can create own roles are ansible galaxy we can download it.
 
+ansible roles:
+https://www.learnitguide.net/2018/02/ansible-roles-explained-with-examples.html
+
+
+to see the roles
+
+ls /etc/ansible/roles
+
+ansible-galaxy init /etc/ansible/roles/mynginx
+
+
+
 
 
 
