@@ -605,7 +605,7 @@ https://github.com/mavrick202/ansibletemplatetesting
 
 ---
   - name: Play for Install Nginx on WebServers
-    hosts: localhost
+    hosts: web
     gather_facts: yes
     vars:
       custom_heading: "Welcome To DevOps Training B13 By Sreeharsha Veerapalli"
@@ -645,6 +645,13 @@ https://github.com/mavrick202/ansibletemplatetesting
        - name: restart nginx
          command: service nginx restart
 
+
+
+
+
+docker run --rm -dit -p 8000:80 sreeharshav/rollingupdate:v5
+
+note : u should had to run this command below the controller.
 
 
 
