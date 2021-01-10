@@ -653,6 +653,12 @@ docker run --rm -dit -p 8000:80 sreeharshav/rollingupdate:v5
 
 note : u should had to run this command below the controller.
 
+ansible roles:
+
+preconfigured roles:
+we can create own roles are ansible galaxy we can download it.
+
+
 
 
 
