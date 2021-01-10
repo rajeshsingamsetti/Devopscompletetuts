@@ -510,6 +510,145 @@ debug is used for the to show message outside.
 ansible-playbook -i hosts myplay.yml --check --tags os,index
 
                                                                         conditions && loops:
+ref url:
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html
+https://docs.ansible.com/ansible/2.4/playbooks_loops.html
+---
+- name: Create set of users
+  hosts: all
+  gather_facts: yes
+  vars:
+    os1family: "Debian"
+    os2family: "RedHat"
+    password: "$1$oEe4m6pU$AAiaKEiYrrcOHW3v3oj7d."
+  tasks:
+    - name: Create Testusers 1,2,3,4,5
+      user: >
+        name={{ item }}
+        shell=/bin/bash
+        password={{ password }}
+      with_items:
+        - debuser1
+        - debuser2
+        - debuser3
+        - debuser4
+        - debuser5
+      when: ansible_os_family == "{{ os1family }}"
+    - debug:
+        msg: The OS Family is {{ ansible_os_family }}
+      tags:
+        - ubuntu
+        - test
+    - name: Create Testusers 6,7,8,9,10
+      user: >
+        name={{ item }}
+        shell=/bin/bash
+        password={{ password }}
+      with_items:
+        - rheluser1
+        - rheluser2
+        - rheluser3
+        - rheluser4
+        - rheluser5
+      when: ansible_os_family == "{{ os2family }}"
+    - debug:
+        msg: The OS Family is {{ ansible_os_family }}
+      tags:
+        - rhel
+        - prod
+        
+        
+******* to get all the information about that particular server.
+
+ansible -i hosts web1 -m setup
+
+vi /etc/ansible/ansible.cfg
+To configure fact caching using redis, enable it in ansible.cfg as follows:
+[defaults]
+gathering = smart
+fact_caching = redis or jsonfile
+fact_caching_timeout = 86400 # seconds
+
+after that above code u paste it.
+ansible -i hosts web1 -m setup
+
+Example:
+[defaults]
+gathering = smart
+fact_caching = jsonfile
+fact_caching_connection = /tmp/factsjson
+fact_caching_timeout = 86400
+
+
+root@controller:/# ll /tmp/factsjson/
+total 92
+drwxr-xr-x 2 root root  4096 Mar 23 02:13 ./
+drwxrwxrwt 1 root root  4096 Mar 23 02:14 ../
+-rw-r--r-- 1 root root 27335 Mar 23 02:13 web1
+-rw-r--r-- 1 root root 27335 Mar 23 02:13 web2
+-rw-r--r-- 1 root root 27335 Mar 23 02:13 web3
+
+now all cathing will be there on under /tmp/factsjson/
+
+cat /tmp/factsjson/web1 | grep -i ansible_os
+
+
+conditions:
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html
+
+
+madhu webserver info *** container ip's
+
+
+https://github.com/mavrick202/ansibletemplatetesting
+
+
+---
+  - name: Play for Install Nginx on WebServers
+    hosts: localhost
+    gather_facts: yes
+    vars:
+      custom_heading: "Welcome To DevOps Training B13 By Sreeharsha Veerapalli"
+      todays_date: "{{ ansible_facts['date_time']['date'] }}"
+      host_name: "{{ ansible_facts['hostname'] }}"
+      fqdn_name: "{{ ansible_facts['fqdn'] }}"
+      ip_address: "{{ ansible_facts['eth0']['ipv4']['address'] }}"
+    tasks:
+       - name: Run Apt Update
+         shell: apt update && apt install -y python-apt
+
+       - name: Install Nginx Server
+         apt: >
+           name=nginx
+           state=present
+       - name: Copy the files to index destination folder.
+         template: >
+            src=/tmp/ansibletemplatetesting/index.j2
+            dest=/var/www/html/index.nginx-debian.html
+            owner=root
+            group=root
+            mode=0644
+       - name: Copy the style files to destination folder.
+         copy: >
+            src=/tmp/ansibletemplatetesting/style.css
+            dest=/var/www/html/style.css
+            owner=root
+            group=root
+            mode=0644
+       - name: Copy the javascript files to destination folder.
+         copy: >
+            src=/tmp/ansibletemplatetesting/scorekeeper.js
+            dest=/var/www/html/scorekeeper.js
+            owner=root
+            group=root
+            mode=0644
+       - name: restart nginx
+         command: service nginx restart
+
+
+
+
+
 
 
 
