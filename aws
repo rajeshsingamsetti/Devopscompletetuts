@@ -1937,6 +1937,59 @@ reboot
  
  ===================================================nfs jenkins high availability over using jenkins=====================
 
+							storage gateway
+							aws backup
+
+
+storage gateway is used for to move the the data from local data centers to cloud(s3)
+3 types of storage gateway.
+img ref url: https://d2908q01vomqb2.cloudfront.net/e1822db470e60d090affd0956d743cb0e7cdf113/2019/11/23/Use-case-1-More-on-premises-backups-to-the-cloud.png
+
+1.file gateway (files ang log files) rarely used remaining 2 don't use
+2.volume gateway (volumes)
+3.tape gateway (backup)
+
+but we can't direct move to cloud we use storage gateway.it's like mediator
+
+note: aws s3 we can't mount directly i.e we use storage gateway
+
+
+
+open storage gateway --> get started --> check file gateway --> next --> select host platform ( aws ec2 ("here we need to use the m4xlarge instance")) --> 
+launch one instance of m4xlarge --> under volume attatch the one ebs extra volume (10gb)-->  tags --> launch instance.
+
+
+next
+and lauch one more instance with t2.micro --> launch instance.
+
+next-->
+create a s3 bucket--> unblock public aceess --> create.
+
+after 
+go to instance copy the public ip of m4xlarge it's like a storage gateway server + copy ip --> paste in chrome --> gateway time zone bombay gmt +5.30 --> give
+gateway name --> activate gateway --> allocate to cache --> disale logging --> save and continue --> after storage gateway created successfully.
+
+note: 
+undey storage gateway dashboard must and stood the gateway file will be in the format of file after click on create a file share.
+give bucket name --> next --> next --> create a file share 
+
+
+now ssh into the micro instance .after goto storage gateway dashboard and below they will give mount linux url's paste it.on micro server ssh
+mkdir folder
+mount storage gateway url /foldername
+
+now the folder will be mount
+df -h 
+will see in mount
+
+cd folder
+create any file it will be there on aws s3 bucket.
+
+if frequent data is there it will give from cache or else it will search in aws s3
+
+
+
+
 
 
 
