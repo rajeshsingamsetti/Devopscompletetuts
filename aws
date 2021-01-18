@@ -1830,9 +1830,112 @@ efs create a file system + choose vpc + choose region +
 create a file system
 
 
+by using network file system
+
+============================================ Realtime nfs  (jenkins High Availability) ==================================================================
+
+take 2 instances in 2 diff regions (if one jenkins server gone also another jenkins will come)
+for centrilizing we use efs (ebs won't support multi region) here in centralizing we maintain jenkins_home
+
+create a efs
+
+note: our vpc having multiple az's subnets.
+go to efs create a file system --> give name + choose vpc --> create.
+click on your efsfile name -> go to attach --> click on manage mount targets --> choose ur vpc --> choose az's + subnets + security groups --> click on save.
+
+now under network we will see those az's in list
+
+above i choose 2 subnets 1a and 1b
+i.e
+i deploy 2 instances in 1a and 1b
+
+launch instances with particular vpc (note where u deploy on ur efs that vpc and that subnets u deploy ur machines)
+
+#!/bin/bash
+apt update && apt install -y nfs-common openjdk-8-jdk
 
 
+note: deploy machines on different regions
 
+after login into ur system go to root
+check java -version
+
+jenkins will be store on the path of var/lib/jenkins
+mkdir /var/lib/jenkins
+
+note: login in to 2 instances and create above folder to mount efs
+
+nslookup fs-38453fe9(file system id)
+if u type above command it will say
+
+** server can't find fs-38453fe9: SERVFAIL
+
+root@ip-10-0-1-97:~# nslookup fs-38453fe9.efs.ap-south-1.amazonaws.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	fs-38453fe9.efs.ap-south-1.amazonaws.com
+Address: 10.0.1.241
+
+
+after will do above (nslookup fs-38453fe9.efs.ap-south-1.amazonaws.com) run same command in another server also will get same responce
+
+** now we need to mount the file system
+ref url:
+https://docs.aws.amazon.com/efs/latest/ug/mounting-fs-mount-cmd-dns-name.html
+
+note: mount in all servers
+sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-38453fe9.efs.ap-south-1.amazonaws.com:/ efs-mount-point
+
+above change file systemid to another id
+
+before we going to mount test it with
+df -h (we don't see any mount)
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-caf2fc3f.efs.us-east-1.amazonaws.com:/ /var/lib/jenkins/
+
+note: if u face any issues while on mount
+1. vpc name must enable hostnames
+2. under efs and instances in same vpc
+3.*** security group of efs and instances should be use same .
+4. while creating security group ssh + nfs (give same security group id).
+5. After efs status Network state will all come available (click on manage) --> under security groups use same security group to instances and efs.
+
+
+after mount type df -h now u will see
+fs-caf2fc3f.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /var/lib/jenkins
+we will see in bottom
+
+
+** note: if u don't setup in fstab while reboot we lost data (efs)
+vi /etc/fstab (add below line)
+fs-caf2fc3f.efs.us-east-1.amazonaws.com:/   /var/lib/jenkins/   nfs
+
+checking the mount:
+umount /var/lib/jenkins
+df -h
+mount -a
+df -h
+
+reboot
+ 
+ after reboot we are going to install jenkins
+ 
+ ref url: https://www.jenkins.io/doc/book/installing/linux/
+ 
+ install jenkins
+ 
+ service satrt jenkins
+ 
+ new item + name + freestyle + build execute shell + save + build now
+ 
+ Now install jenkins on 2 nd server too
+ service jenkins start
+ 
+ login in web browser
+ now what ever u made changes in server1 it will appear in server2 bcoz of efs
+ 
+ ===================================================nfs jenkins high availability over using jenkins=====================
 
 
 
