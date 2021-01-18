@@ -1991,6 +1991,20 @@ if frequent data is there it will give from cache or else it will search in aws 
 
 
 
+							aws backups
+create abackup vault ==> give name --> give tags --> create .
+after creating a vault --> create a plan --> start from existing plan or else build ur own plan --> create a plan.(we can set time or custumize)
+note: if u want take multi or single instance backup will use under backup plans --> click on ur plan --> go to resource assignments --> give name + under assignment
+resource assign by (tags)+ key (tagname) + value (yes).
+
+note: whenever u will create instance under tags give like backup and value will be yes .
+
+after protected resource --> crate ondemand --> create it.
+
+
+
+
+
 
 
 
