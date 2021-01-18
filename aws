@@ -2003,6 +2003,49 @@ after protected resource --> crate ondemand --> create it.
 
 
 
+============================================================== DataBases========================================================================
+
+RDS  => relation database system or regular database system /mssql , oracle ,mysql => strcture databases also called (rows and columns)
+rds will create multi region create.if primary lost also secondary will take charge.
+DynamoDB => nosql (key,value pair database)
+Amazon DocumentDB(MongoDB) => nosql
+
+
+Elasticcache  => website performorming increasing using casche
+Amazon Redshift => optimized database for dataware house application (postgress).
+
+
+RDS is an platform as a service (paas).
+underlying infrastrcture we don't had an total control.
+
+
+open amazon rds ==> click on subnet groups --> give name + description + choose ur vpc + choose or check ur subnets + create it.
+subnet group is used for where the rds will deploy on.
+
+create a database.
+choose mysql + choose version(8.0.11) + templete choose production for effective ness purpose (choose free tier ) + under credentials setting master username + 
+password + dbsize (micro) + choose vpc + choose subnet group + public accesable yes + security groups (allow alla) + create database.
+
+after download mysql workbench
+
+copy the mysql database endpoint
+
+under mysql workbench
+hostname place endpoint + give username as admin + test password give password connect 
+
+copy madhu total mysql code into it.
+
+it will create tables and database
+
+run select queries
+
+
+
+
+
+
+
+
 
 
 
