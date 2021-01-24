@@ -1,0 +1,14 @@
+cloud formation
+
+Benfits:
+infrastrcture as code
+ * no resource manually created
+ * the code can be version controll for git
+ * changes to infra are reviewd through code
+ 
+ 
+ cloudformation vs ansible vs terraform
+ 
+ aws native is cloudformation will get latest updates
+ ansible and terraform have to be updated every time a new services or api option comes from aws, which can take a long time
+ 
