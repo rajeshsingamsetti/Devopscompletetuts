@@ -1,1 +1,19 @@
 jenkins
+
+code build deploy
+code + build + test +report == ci
+
+create job
+clone project
+build top level maven targets
+
+we see artifact in
+workspace / webapp/web/target/(war file here available)
+
+for scheduling will use
+poll scm -- crontab
+
+** Quality analysis :
+manage plugins => PMD + findbugs + checkstyle (search those plugins ) + install without restart. + build set
+
+
