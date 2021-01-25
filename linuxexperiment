@@ -1,0 +1,35 @@
+1. copy specified filenames from files
+
+orders_tollfree.php
+provider_customtollfree.php
+provider_localdidorder.php
+provider_smsavailable.php
+provider_smsenable.php
+provider_smsremove.php
+provider_smslist.php
+provider_smssending.php
+provider_smsenableurl.php
+provider_smsurllist.php
+provider_smsemail.php
+provider_e911send.php
+provider_e911delete.php
+provider_e911checkaddress.php
+provider_e911getinfo.php
+provider_didlidbservice.php
+provider_didcnamshow.php
+provider_didcnamorder.php
+provider_didcnamdisable.php
+provider_didcnamstatus.php
+provider_lnp.php
+provider_billing_cdrlist.php
+provider_billing_subaccountcdrlist.php
+provider_billing_totalcdrlist.php
+
+
+
+while IFS= read -r line; do
+    echo "Text read from file: $line"
+    cp -r $line /var/www/html/bcp/
+done < sample.txt
+
+
