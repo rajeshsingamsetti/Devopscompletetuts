@@ -134,8 +134,11 @@ Default lifecycle:
 	6. install        mvn compile package                    
 	--> clean :- it deletes all runtime files
 	--> site : - documentation(99% we will not use, very rare cases like audits...)
+     deploy
+	
+	
 
-Example Maven Goles:
+Example Maven Golas:
 --------------------
 To invoke a Maven build you set a lifecycle “goal”
 mvn install
@@ -176,7 +179,19 @@ GAV:
 	packaging -- build type identified using the packaging element
 	eg : - pom ,jar(default),war,ear
  note: - by keeping pom in packaging it acts as a parent pom of all modules
+ 
+ mvn archetype:generate (default project and pom.xml file will be create)
+ 
 mvn archetype:generate
+
+folder strcture
+
+src:
+ main(java files)
+ test (unit testing)
+pom.xml
+target(after compile it will create target folder will create package jar or war file will create)
+
 
 --> jar - java archive(default package maven uses which contains group of .class files, so we group this to get a particular behaviour)
 --> war - web archive - contain group of jar + config + xml (for web based projects)
@@ -187,6 +202,7 @@ Note:- How maven knows,where java files,what it has to do,where to keep files an
 1)dir structure 
 2) pom.xml file in dir 
 
+default packaging is jar
 
 POM:(conf file)
 ---------------
@@ -289,7 +305,6 @@ using a build profile, you can customize buid for different environments such as
 	          </build>
        </profile>
 </profiles>
-
 --> profile can activate many types like env, os, settings.xml in repo...etc
 
 <profile>  
@@ -301,6 +316,9 @@ using a build profile, you can customize buid for different environments such as
       </property>
     </activation> 
 </profile>  
+
+mvn -Pdemo clean
+
 ---------------------------------------------
 Multy-Module Projects:
 ======================
@@ -320,7 +338,7 @@ issues -1:
  >> executing all modules every time
 
 overcome:
-parent and child relationship, by keeping 'pom' file in "packaging"
+******* parent and child relationship, by keeping 'pom' file in "packaging"
 Ex:-
 
   <groupId>EBU</groupId>
@@ -333,7 +351,7 @@ Ex:-
     </modules>
 
 issue-2:
->> Dependencies
+>> Dependencies (copy the dependency gav in your target pom file)
 -->adding add.jar to subtract for dependency..
 
 <dependencies>
@@ -354,15 +372,24 @@ note:-
     </dependency>			|
   </dependencies>			|
 
-by using "install" phase in add module, then add.jar will move to local repo
+****** by using "install" phase in add module, then add.jar will move to local repo
 
 mvn install--> copying jar file form local project folder to local repository
 
+****** 
 giving parent gav in child ==>>complete parent and child rel
+
+<parent>
+<groupId>EBU</groupId>
+  <artifactId>Parent-module</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</parent>
 
 Dependencys how maven know:
 ------------------
 --> if sub is depend on add file then we need to keep add file GAV into sub file dependency.
 --> error :- not able to find add file, then install add file from local project folder to local repository
               mvn install
+
+
 
