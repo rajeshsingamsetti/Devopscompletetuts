@@ -582,3 +582,244 @@ server url : localhost:sonorqube
 server authentication token:(it will take automatically after save and comeback check) 
 
 
+
+****     						Jenkins High availability jenkins servers:
+
+take 2 serervers in different az's
+us-east-1a (primary) prod
+us-east-1b (secondary) slave
+
+if primary down automatic seacond will take the charge
+
+taking "EFS" bcoz it supports multi az's efs (jenkins_home)
+ref urL: https://i1.wp.com/www.opcito.com/wp-content/uploads/2019/08/Jenkins-HA-Setup.jpg?fit=640%2C640&ssl=1
+
+under prod again prod slave -1 and prod slave -2 
+
+under Dev again dev slave -1 and dev slave -2 
+
+
+
+start
+create a efs cluster
+
+create efs name (jenkins) + choose vpc + after dashboard below tabs choose network + click on mount targets + chooose vpc and + choose (2 az's) + save
+
+after create 2 servers one is 1a and one is 1b.
+
+userdata will be 
+#!/bin/bash
+apt update && apt install -y nfs-common openjdk-8-jdk
+
+
+after launch 2 instances
+
+login in into servers
+check
+sudo su -
+java -version
+jenkins (will install on /var/lib/jenkins)
+so we need create directory like this
+mkdir /var/lib/jenkins
+now we need to mount our efs to above folder
+
+----------- by madhu efs starts--------
+efs create a file system + choose vpc + choose region + 
+create a file system
+
+
+by using network file system
+
+============================================ Realtime nfs  (jenkins High Availability) ==================================================================
+
+take 2 instances in 2 diff regions (if one jenkins server gone also another jenkins will come)
+for centrilizing we use efs (ebs won't support multi region) here in centralizing we maintain jenkins_home
+
+create a efs
+
+note: our vpc having multiple az's subnets.
+go to efs create a file system --> give name + choose vpc --> create.
+click on your efsfile name -> go to attach --> click on manage mount targets --> choose ur vpc --> choose az's + subnets + security groups --> click on save.
+
+now under network we will see those az's in list
+
+above i choose 2 subnets 1a and 1b
+i.e
+i deploy 2 instances in 1a and 1b
+
+launch instances with particular vpc (note where u deploy on ur efs that vpc and that subnets u deploy ur machines)
+
+#!/bin/bash
+apt update && apt install -y nfs-common openjdk-8-jdk
+
+
+note: deploy machines on different regions
+
+after login into ur system go to root
+check java -version
+
+jenkins will be store on the path of var/lib/jenkins
+mkdir /var/lib/jenkins
+
+note: login in to 2 instances and create above folder to mount efs
+
+nslookup fs-38453fe9(file system id)
+if u type above command it will say
+
+** server can't find fs-38453fe9: SERVFAIL
+
+root@ip-10-0-1-97:~# nslookup fs-38453fe9.efs.ap-south-1.amazonaws.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	fs-38453fe9.efs.ap-south-1.amazonaws.com
+Address: 10.0.1.241
+
+
+after will do above (nslookup fs-38453fe9.efs.ap-south-1.amazonaws.com) run same command in another server also will get same responce
+
+** now we need to mount the file system
+ref url:
+https://docs.aws.amazon.com/efs/latest/ug/mounting-fs-mount-cmd-dns-name.html
+
+*** note we need to mount the same efs in two instances different az's 
+firstly proceed with only one instance after install mount jenkins in 2 nd server also
+
+note: mount in all servers
+sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-38453fe9.efs.ap-south-1.amazonaws.com:/ efs-mount-point
+
+above change file systemid to another id
+
+before we going to mount test it with
+df -h (we don't see any mount)
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-caf2fc3f.efs.us-east-1.amazonaws.com:/ /var/lib/jenkins/
+
+note: if u face any issues while on mount
+1. vpc name must enable hostnames
+2. under efs and instances in same vpc
+3.*** security group of efs and instances should be use same .
+4. while creating security group on efs  ssh + nfs (give same security group id).
+5. After efs status Network state will all come available (click on manage) --> under security groups use same security group to instances and efs.
+
+
+after mount type df -h now u will see
+fs-caf2fc3f.efs.us-east-1.amazonaws.com:/  8.0E     0  8.0E   0% /var/lib/jenkins
+we will see in bottom
+
+
+** note: if u don't setup in fstab while reboot we lost data (efs)
+vi /etc/fstab (add below line)
+fs-caf2fc3f.efs.us-east-1.amazonaws.com:/   /var/lib/jenkins/   nfs
+
+touch /var/lib/jenkins/file1 (create a sample file in jenkins)
+checking the mount:
+umount /var/lib/jenkins
+df -h
+mount -a
+df -h
+
+reboot
+ 
+ after reboot  also we need to see the file in /var/lib/jenkins/file1
+ 
+ we are going to install jenkins
+ 
+ ref url: https://www.jenkins.io/doc/book/installing/linux/
+ 
+ install jenkins
+ 
+ service satrt jenkins
+ 
+ new item + name + freestyle + build execute shell + save + build now
+ 
+ Now install jenkins on 2 nd server too
+ service jenkins restart (u want see latest changes on server1)
+ 
+ login in web browser
+ now what ever u made changes in server1 it will appear in server2 bcoz of efs
+ 
+ 
+ *** as of now we only we configured master now we need to implenet slaves 
+ on master any server follow below steps for slaves
+ 
+su - jenkins
+pwd
+/var/lib/jenkins
+ssh-keygen (hit enter 3 times)
+
+cd .ssh
+
+(note we had same keys in both masters)
+Now our slaves we need to configure password less authentication
+ 
+ install 2server with same vpc with security groups (one is prod slave and one is dev slave)
+ userdata will be 
+#!/bin/bash
+apt update && apt install -y openjdk-8-jdk
+
+
+after go to inside 2 server
+crete same users in 2 servers ( useradd -m jenkins)
+su - jenkins
+pwd
+/home/jenkins
+ssh-keygen (hit enter 3 times)
+we need only authorized_keys in slaves
+
+rm -f id_rsa*
+cd .ssh
+vi authorized_keys
+copy the public key of master (do in master .ssh cat id_rsa.pub)
+
+to check authentication from master server login in
+cd .ssh
+ssh jenkins@privateipofslavenode (enter we logged into slave nodes)
+
+
+*********
+NOw go to jenkins dashboard
+MANAGE JENKINS --> manage nodes --> click on new node -> give node name (prod-slave1) + click on permanent agent (click on ok) --> description give -->
+no of executors (if 2 cpu give 2 or 1cpu give 1 as of now 1)--> remote directory will be (/home/jenkins) --> lables match lables of job only node will run(PROD)   
+--> usage (only build jobs with match lable expressions) --> launch method (launch via ssh) --> host (give slave privateip) + for credentiabls (as of now save it)
+
+go to manage jenkins --> manage credentials --> add credentials --> kind ssh username with privatekey + id (for slaves) + description + username (jenkins) +
+private_key (click on add) cat id_rsa (paste in tab private key (already public key added to slaves now private + public key's makes connection) + save.
+
+manage jenkins -> manage nodes --> our previoius node --> configure + credentials (use ssh credentials ) + save + relaunch agent.
+
+NOW after success we had another node running.
+
+same procedure for slave 2
+new node --> name (dev slave1) +copy from existing node (prod slave 1) --> evrything will previous configure we only change (lables DeV) + host dev (private ip)
+--> save + relaunch the agent .
+
+
+now we had 
+master (only for managing pupose)
+prod1-slave (to run jobs)
+dev1-slave (to run jobs)
+
+
+create job +
+click on restrict where this job will run + label expression (use our nodes lables (Dev/PROD)) + save and run job.
+
+
+
+
+
+
+
+
+
+
+ ===================================================nfs jenkins high availability over using jenkins as =====================
+
+
+
+
+
+
+
+
+
