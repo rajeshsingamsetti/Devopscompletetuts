@@ -413,6 +413,9 @@ Goto jenkins job -> Add new ->Build ->Add build step ->Execute SonaQube Scanner 
    sonar.sources=src
    sonar.jacoco.reportPath=target\\coverage-reports\\jacoco-unit.exec
 
+apply and save.
+build now.
+
 
 jfrog/Nexus
 -----
@@ -561,3 +564,21 @@ plugins
  Matrix Authorization Strategy
  Build timeout
  Throttle Concurrent builds
+
+
+
+*** sonarcube :
+
+install the plugin sonarqube scanner for jenkins
+
+
+configure system:
+
+under sonorqube servers:
+click on add sonor:
+name:
+server url : localhost:sonorqube
+
+server authentication token:(it will take automatically after save and comeback check) 
+
+
