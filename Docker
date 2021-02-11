@@ -16,3 +16,189 @@ physical server --> hypervisor --> os --> individual vm's
 more about ref url:
 https://jvns.ca/blog/2016/10/10/what-even-is-a-container/#:~:text=When%20you%20use%20those%20features,Let's%20dive%20in!
 
+******----------
+##########Docker#########
+
+Docker:- Docker is a software which is going to help to create containers.
+------   - Container service used to develope,shipping, and run the appications.
+   --> it can run anywhere
+                  >> physical
+                  >> virtual
+                  >> cloud
+   --> it can run anything
+                  >> hosts
+                  >> container
+
+   --> os level virtualization
+   --> we can install this without any hypervisers like vm ware,virtual box...etc
+   --> no need of any dedicated os to docker containers, it consumes from our base os and install bin,lib files of your desired image.  
+   --> no need to dedicate any RAM(pre-allocation),HDD,OS to containers because it uses our base os haredware & software...
+   --> docker ensures your aplications and resources are isolated
+   --> scalability of docker is lightweight, portable and docker apps can run anywhere
+   @ BUILD-->SHIP-->RUN 
+
+Docker Competeters:
+-------------------
+* kubernetes
+
+Installation:
+-------------
+1. epel ( yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm )
+2. yum update
+3. yum install yum-utils 
+4. yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+5. yum install -y http://ftp.riken.jp/Linux/cern/centos/7/extras/x86_64/Packages/container-selinux-2.95-2.el7_6.noarch.rpm
+       Note:- https://stackoverflow.com/questions/45272827/docker-ce-on-rhel-requires-container-selinux-2-9/45287245
+6. install docker package
+        yum -y install docker-ce 
+
+and start the docker daemon
+ -> service docker start  (or) systemctl start docker
+
+verify
+ -> docker --version
+ -> docker version
+ -> docker info (system properties)
+ -> ps -ef | grep docker
+
+
+
+
+Virtulization vs Containers:
+----------------------------
+# Gust OS        Only bootable files of OS is required
+# bin/libs       light weight images   
+# Apps           apps can run anywhere
+# RAM            host OS RAM utilization
+# HDD            host OS HDD utilization
+
+Docker-hub:- is a place where we can see all the uploaded images 
+   --> docker search <image_name>
+        eg: docker search hello-world --> to see all the images(particular) in docker hub
+            docker pull hello-world --> to download the image into your local machine
+
+Images:
+------
+ Is collection of files and some metadata, it made of layers, each layer can add,change and remove files
+   --> A docker base image is nothing but OS minus the kernal. it has only "BOOTFS"
+   --> Docker image consists different layers the 1st layer of the image consist of OS bootable files of that OS,
+       only through  which it is going to recognize/treating the container as a seperate OS.
+       and on the top of that whatever we specific files,installtions,& configurations will be a seperate layer.
+   --> image are readonly filesystem, we can't edit. If you want to edit then we need to run the image as a container 
+   --> Docker images are lightweight and portable.
+
+   @ docker pull centos
+   @ docker images
+   @ docker rmi devops centos ubuntu redhat
+   @ for one image we can have multiple containers
+           Note:- every time when we run a "docker run -it <image_name>" it creats a new container. 
+   @ docker rmi image_name / image_id
+           Note:- 1.it will not remove when the container is running(forcely (-f) also not possible)
+           Note:- 2.it will not remove when container is stoped also, we need to forcely delete, if you want.
+   @ docker tag <old_tag> <new_tag> (image renaming) 
+
+
+Container:
+----------
+is a running instance of a OS image(base os)(or) container is a copy of image
+   --> it consists of images and applications
+   --> we can move,shift,upload,download the containers
+   --> when we create a container very first thing we will run "/bin/bash" as entry_point called SHELL, which will create environment to run commands in containers.
+   @ docker run -it centos "/bin/bash"
+               -t --> attaching terminal to container
+               -i --> interative mode
+   @ docker run -itd centos --> running container in a DETACHED mode
+   @ docker attach <container id>
+   @ cat /etc/*os*rel*
+   @ ps -ef (to check the current running processers
+   @ docker run --name globes -it /bin/bash
+   @ exit (or)  ctrl + d
+   @ ctrl + p + q --> without stoping container, we can see docker ps
+   @ docker ps (current running process)
+   @ docker ps -a (all)
+   @ docker ps -aq (display only container ids)
+   @ docker stop ff8bdb8453f6 <container id> / container_name
+   @ docker start 950cd0c95708 <container id> / container_name
+   @ docker rm <container id>
+            Note:- we can forcely remove the running container
+   @ docker rm -f <container_id>
+   @ docker info
+   @ docker create
+   @ docker pull
+   @ docker push
+   @ docker rename <src> <dest> (we can change the name not the container id)
+
+Inspecting:
+-----------
+Docker inspect fetch complete properties of docker container in the form of 'key_and_value_pair' in JSON format(JavaScript Object Notation))
+   @ docker inspect <container id>
+   @ docker top <container_name> (to get container's processess)
+   @ docker inspect | grep -i ip
+   @ docker inspect | grep config
+   @ docker inspect --format '{{ .Name }}' globes
+   @ docker inspect --format '{{ .ID }}' globes
+   @ docker inspect --format '{{ .NetworkSettings.IPAddress }}' <container_id>
+   @ docker inspect --format '{{ .Config.Hostname }}' vinodh 
+   
+
+Daemonized Containers:
+----------------------
+if you want to run your application continuously in container, we achive this by running your container as daemonized.
+Here it is not attaching your terminal to container, i.e in the backgroud it is going to run. 
+ eg:- 
+     docker run --name daemon -d centos /bin/bash -c "while true; do echo welcome to devops training; sleep 2; done"
+  
+and if you want to see the running application in the daemonized container
+    docker logs -f container_name
+
+Running container from host system:
+-----------------------------------
+run a command in a running container without attaching terminal to it. 
+docker exec cbf7fdaed9d7 touch /tmp/hello.txt
+docker exec cbf7fdaed9d7 hostname
+
+Container resource usage statistics:
+------------------------------------
+to see the cpu and memory utilizations
+docker stats cbf7fdaed9d7
+docker exec cbf7fdaed9d7 apt-get update 
+
+Events:
+-------
+real time live events management for server
+docker live events tracking
+@ docker events
+@ docker events --filter event=attach --filter event=die
+@ docker events --filter [label|image|volume|network|daemon|container...etc]
+@ docker events --since '1h'
+
+Exposing Ports:
+--------------
+if you want to access the application running in the container we use port mapping to achive it.
+ @ docker run -p<hostport>:<containerport> -it nginx /bin/bash
+ @ localhost:90
+
+ Note:- - all ports are private by default
+	- docker run -p (if you not mention any port, then whatever the ports running in the container will map to host with same number in single go.
+        - all the ports declare with EXPOSE become public.
+
+Data Volumes:
+-------------
+>> it is used to copy, share data form one container to one/more containers 
+>> A volume is a directory(special directory) we create in container to achive this
+>> in normal NFS we can share data when only two machines are up and running, in our case not required.... 
+
+ @ docker run --name vol1 -it -v /home/data centos /bin/bash
+ @ docker run --name vol2 -it --volumes-from vol1 --privileged=true ubuntu /bin/bash
+>> sharing volumes between host and containers
+ @ docker run -it -v /home/vinu:/usr/data ubuntu /bin/bash
+
+Building A custom images:-
+------------------------
+@ apt-get update
+@ apt-get install vim
+@ apt-get install git
+@ touch t1
+@ vi t1
+@ docker commit containerid/name
+@ docker tag image_id <image_name>
