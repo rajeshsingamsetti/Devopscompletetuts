@@ -2039,6 +2039,18 @@ it will create tables and database
 
 run select queries
 
+=======================================Elastic bean stalk================================
+
+opswork == chef tool like (ansible)
+
+Elastikbeanstak: platform as a service.
+
+https://github.com/aws-samples/eb-tomcat-snakes
+
+above url like a simple web application of java
+
+
+
 
 
 
