@@ -197,7 +197,16 @@ All other commands:
     state              Advanced state management
 ===================
 
+terraform init
+terraform plan --var-file prod.tfvars
+terraform apply --auto-approve
+terraform destroy
 
+aws s3 bucket creation 
+refurl: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
+
+
+terraform is an idempodent(once we made changes and apply again you run it it won't affect bcoz it will monitor the state file)
 
 ** must be take care of state file
 
