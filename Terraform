@@ -61,6 +61,15 @@ to check terraform installed or not in your system u simply enter the below comm
 
 terraform version
 
+in visual studio code we need install extensions like:
+hasicorp syntax check
+azure terraform
+
+remove unwanted files
+like : docker.service
+jenkinsbuildscript
+packer.json
+
 ================now we need to configure aws=====================
 login into aws account 
 Go to iam
