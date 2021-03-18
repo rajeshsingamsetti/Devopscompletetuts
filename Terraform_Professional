@@ -210,7 +210,7 @@ terraform is an idempodent(once we made changes and apply again you run it it wo
 
 ** must be take care of state file
 
-types of files
+                                                                              types of files
 .tf
 .tfvars
 .state
@@ -256,6 +256,18 @@ terraform state list
 
 ** to destory
 terraform destory --var-file prod.tfvars
+
+
+
+Note : if u want to run multipletfvars (when we apply and running time it will delete the previous configurations 
+**** single folder we can't run multiple tfvars
+for this we need seperate workspace like ex: prodfolder , testfolder (for its safe side)
+
+but as of now we are going to remove the 
+terraform.tfstate
+terraform.tfstate.backup
+
+
 
 ** now when we work on multiple tfvars we can use "workspace" its nothing but a git branch type
 
