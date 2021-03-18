@@ -263,15 +263,15 @@ Note : if u want to run multipletfvars (when we apply and running time it will d
 **** single folder we can't run multiple tfvars
 for this we need seperate workspace like ex: prodfolder , testfolder (for its safe side)
 
-but as of now we are going to remove the 
+insteed we can use workspace now we are going to remove the 
 terraform.tfstate
 terraform.tfstate.backup
 
-
+copy above files at somewhere
 
 ** now when we work on multiple tfvars we can use "workspace" its nothing but a git branch type
 
-terraform workspace show
+terraform workspace show (it displays the workspaces of terraform)
 
 to create a new work space
 terraform workspace new prod
@@ -279,6 +279,24 @@ terraform workspace new prod
 terraform workspace list
 
 terraform workspace new dev
+after it will create an separate folder for us in the name of dev
+
+* to switch workspace
+terrraform workspace select dev
+
+* to delete workspace
+first u need to switch the another folder
+after delete the folder what you want to delete
+terraform workspace delete foldername
+
+** after creating workspace go to that folder
+and
+terraform apply --var-file prod.tfvars --auto-approve
+after it will copy only the tfstate to that specific folder
+
+****note u must be there correct workspace(to avoid overites in production)
+
+this procedure for single folder run multiple tfvar files
 
 terraform plan --var-file dev.tfvars (by using workspace we can use muktiple variable files)
 terraform plan --var-file prod.tfvars (by using workspace we can use muktiple variable files)
@@ -286,17 +304,24 @@ terraform plan --var-file prod.tfvars (by using workspace we can use muktiple va
 Note "
 never user workspace bcoz of thread(overwritten the all files) insted of we can use multiple folders
 
+*** for see the outputs 
+terraform output
+
+**note: after destroy only we need to delete workspace
 
 *** we never share or push a state file to github
 
-now we copy our entire project and pasted in another location
+ now we copy our entire project and pasted in another location
 
 now parent folder apply the terraform
 now go to same child (note terraform.tfstate file must be there ) otherwise its duplicates your data
 
+*** state file centralization we never encourage statefile will need to move on github
+            ------------------- aws terraform backend-----------------------------------------
 """ insted of coping everytime the .tfstate file we can use terraform state backend"""
 
 we can use terraform back end
+create bucket in s3 enable versioning 
 go to aws create aws s3 bucket
 
 terraform {
@@ -308,6 +333,19 @@ terraform {
 }
 
 ref url: https://github.com/mavrick202/terraformsingleinstance/blob/remotebackends3/main.tf
+
+add s3 code into main.tf or else create separe file like
+backend.tf (paste the below code)
+
+terraform {
+  backend "s3" {
+    bucket = "terrabucketn1"
+    key    = "myterraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
+
 
 
 *** reference main.rf
